@@ -375,7 +375,7 @@ const TransacoesList = () => {
                               </ButtonIcon>
                             )}
 
-                            {item.vistoAdmin && (
+                            {item.vistoAdmin && isAdmin && (
                               <ButtonIcon tooltip="Desmarcar como visto">
                                 <IoMdClose
                                   size={20}
