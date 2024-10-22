@@ -47,8 +47,7 @@ import RelatorioFornecedor from "../pages/RelatorioFornecedor";
 
 export const AppRoutes = () => {
   const location = useLocation();
-  const { user } =
-    useGlobal();
+  const { user, isFuncionario, isVendedor } = useGlobal();
 
   ReactGA.initialize("G-HMJ7F7DKB5");
   ReactGA.send({
@@ -62,42 +61,47 @@ export const AppRoutes = () => {
     <Routes>
       {/* Rotas para todos os perfis autenticados */}
       <Route element={<ProtectedRoute isAuth={!!user} />}>
-        <Route path="/" element={homeElement} />
-        <Route path="/index.htm" element={homeElement} />
-        <Route path="/index.html" element={homeElement} />
-        <Route path="/produtos2" element={<Products />} />
-        <Route path="/destinos" element={<Pacotes />} />
-        <Route path="/excursoes" element={<Excursoes />} />
-        <Route path="/excursoes/:id/embarque" element={<Embarque />} />
-        <Route path="/excursoes/:id/quartos" element={<Quartos />} />
-        <Route path="/excursoes/:id/onibus" element={<Onibus />} />
-        <Route path="/excursoes/:id/passageiros" element={<PassageirosList />} />
-        <Route path="/excursoes/:idExcursao/opcional-embarque/:id" element={<OpcionaisEmbarque />} />
-        <Route path="/transacoes" element={<Transacoes />} />
-        <Route path="/tipo-quarto" element={<TipoQuarto />} />
-        <Route path="/categoria-transacao" element={<CategoriaTransacao />} />
-        <Route path="/conta-bancaria" element={<ContaBancaria />} />
-        <Route path="/forma-pagamento" element={<FormaPagamento />} />
-        <Route path="/cliente" element={<Clientes />} />
-        <Route path="/fornecedor" element={<Fornecedor />} />
         <Route path="/reservas" element={<Reservas />} />
         <Route path="/reservas/:id/voucher" element={<Voucher />} />
         <Route path="/reservas/:id/ticket" element={<Ticket />} />
-        <Route path="/subcategoria-transacao" element={<SubCategoriaTransacao />} />
-        <Route path="/local-embarque" element={<LocalEmbarque />} />
-        <Route path="/usuarios" element={<Usuarios />} />
-        <Route path="/ranking-clientes" element={<RankingCliente />} />
-        <Route path="/vendas" element={<Vendas />} />
-        <Route path="/relatorios/clientes" element={<RelatorioClientes />} />
-        <Route path="/relatorios/auditoria" element={<Auditoria />} />
-        <Route path="/relatorios/categorias" element={<RelatorioCategorias />} />
-        <Route path="/relatorios/excursoes" element={<RelatorioExcursao />} />
-        <Route path="/relatorios/destinos" element={<RelatorioPacote />} />
-        <Route path="/relatorios/vendas" element={<RelatorioVenda />} />
-        <Route path="/relatorios/fornecedores" element={<RelatorioFornecedor />} />
-        <Route path="/configuracoes" element={<Configuracao />} />
-        <Route path="/comissoes" element={<Comissao />} />
 
+        <Route element={<ProtectedRoute isAuth={!isVendedor} />}>
+          <Route path="/" element={homeElement} />
+          <Route path="/index.htm" element={homeElement} />
+          <Route path="/index.html" element={homeElement} />
+          <Route path="/produtos2" element={<Products />} />
+          <Route path="/destinos" element={<Pacotes />} />
+          <Route path="/excursoes" element={<Excursoes />} />
+          <Route path="/excursoes/:id/embarque" element={<Embarque />} />
+          <Route path="/excursoes/:id/quartos" element={<Quartos />} />
+          <Route path="/excursoes/:id/onibus" element={<Onibus />} />
+          <Route path="/excursoes/:id/passageiros" element={<PassageirosList />} />
+          <Route path="/transacoes" element={<Transacoes />} />
+          <Route path="/tipo-quarto" element={<TipoQuarto />} />
+          <Route path="/categoria-transacao" element={<CategoriaTransacao />} />
+          <Route path="/conta-bancaria" element={<ContaBancaria />} />
+          <Route path="/forma-pagamento" element={<FormaPagamento />} />
+          <Route path="/cliente" element={<Clientes />} />
+          <Route path="/fornecedor" element={<Fornecedor />} />
+          <Route path="/subcategoria-transacao" element={<SubCategoriaTransacao />} />
+          <Route path="/local-embarque" element={<LocalEmbarque />} />
+          <Route path="/usuarios" element={<Usuarios />} />
+          <Route path="/ranking-clientes" element={<RankingCliente />} />
+          <Route path="/vendas" element={<Vendas />} />
+          <Route path="/excursoes/:idExcursao/opcional-embarque/:id" element={<OpcionaisEmbarque />} />
+          <Route path="/comissoes" element={<Comissao />} />
+
+          <Route element={<ProtectedRoute isAuth={!isFuncionario} />}>
+            <Route path="/relatorios/clientes" element={<RelatorioClientes />} />
+            <Route path="/relatorios/auditoria" element={<Auditoria />} />
+            <Route path="/relatorios/categorias" element={<RelatorioCategorias />} />
+            <Route path="/relatorios/excursoes" element={<RelatorioExcursao />} />
+            <Route path="/relatorios/destinos" element={<RelatorioPacote />} />
+            <Route path="/relatorios/vendas" element={<RelatorioVenda />} />
+            <Route path="/relatorios/fornecedores" element={<RelatorioFornecedor />} />
+            <Route path="/configuracoes" element={<Configuracao />} />
+          </Route>
+        </Route>
 
         <Route path="*" element={<PageNotFound />} />
       </Route>

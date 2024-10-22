@@ -28,8 +28,11 @@ import { IoMdClose } from "react-icons/io";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { currencyBRLFormat } from "../../../utils/currencyBRLFormat";
 import useContaBancaria from "../../../hooks/useContaBancaria";
+import { useGlobal } from "../../../contexts/UserContext";
 
 const TransacoesList = () => {
+  const { isAdmin } = useGlobal();
+
   const { getTransacoes,
     deleteTransacao,
     efetivarTransacao,
@@ -179,7 +182,7 @@ const TransacoesList = () => {
               onChange={(item) => {
                 setContaBancaria(item.map((val) => { return val }));
               }}
-              options={dataContaBancaria.map((conta, index) => {
+              options={dataContaBancaria.map((conta) => {
                 return { value: conta.id, label: conta.nome }
               })}
             />
@@ -320,20 +323,22 @@ const TransacoesList = () => {
                               />
                             </ButtonIcon>
 
-                            <ButtonIcon tooltip="Excluir transação">
-                              <Button
-                                variant="unstyled"
-                                display="flex"
-                                alignItems="center"
-                                colorScheme="red"
-                                onClick={() => {
-                                  setModalRemoveTransacao(true)
-                                  setTransacaoId(item.id)
-                                }}
-                              >
-                                <FiTrash />
-                              </Button>
-                            </ButtonIcon>
+                            {!isAdmin &&
+                              <ButtonIcon tooltip="Excluir transação">
+                                <Button
+                                  variant="unstyled"
+                                  display="flex"
+                                  alignItems="center"
+                                  colorScheme="red"
+                                  onClick={() => {
+                                    setModalRemoveTransacao(true)
+                                    setTransacaoId(item.id)
+                                  }}
+                                >
+                                  <FiTrash />
+                                </Button>
+                              </ButtonIcon>
+                            }
 
                             {!item.efetivado ? (
                               <ButtonIcon tooltip="Efetivar transação">
@@ -358,7 +363,7 @@ const TransacoesList = () => {
                                 </ButtonIcon>
                               )}
 
-                            {!item.vistoAdmin && (
+                            {!item.vistoAdmin && isAdmin && (
                               <ButtonIcon tooltip="Marcar como visto">
                                 <IoCheckmarkDoneSharp
                                   size={20}
