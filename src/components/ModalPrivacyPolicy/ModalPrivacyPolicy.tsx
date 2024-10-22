@@ -23,7 +23,7 @@ const ModalPrivacyPolicy = () => {
         setUser(res?.data);
         if (role) {
           navigate("/");
-        } else if (1 === 1) {
+        } else if (user?.termsOfPrivacy) {
           navigate("/selecione-perfil");
         }
       })

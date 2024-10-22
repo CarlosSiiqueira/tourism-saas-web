@@ -33,6 +33,7 @@ export interface IUser {
   meta: number | null
   createdAt: Date
   updatedAt: Date
+  termsOfPrivacy: boolean
 }
 
 export interface IUser {
