@@ -28,8 +28,11 @@ import { IoMdClose } from "react-icons/io";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { currencyBRLFormat } from "../../../utils/currencyBRLFormat";
 import useContaBancaria from "../../../hooks/useContaBancaria";
+import { useGlobal } from "../../../contexts/UserContext";
 
 const TransacoesList = () => {
+  const { isFuncionario } = useGlobal();
+
   const { getTransacoes,
     deleteTransacao,
     efetivarTransacao,
@@ -320,20 +323,22 @@ const TransacoesList = () => {
                               />
                             </ButtonIcon>
 
-                            <ButtonIcon tooltip="Excluir transação">
-                              <Button
-                                variant="unstyled"
-                                display="flex"
-                                alignItems="center"
-                                colorScheme="red"
-                                onClick={() => {
-                                  setModalRemoveTransacao(true)
-                                  setTransacaoId(item.id)
-                                }}
-                              >
-                                <FiTrash />
-                              </Button>
-                            </ButtonIcon>
+                            {!isFuncionario &&
+                              <ButtonIcon tooltip="Excluir transação">
+                                <Button
+                                  variant="unstyled"
+                                  display="flex"
+                                  alignItems="center"
+                                  colorScheme="red"
+                                  onClick={() => {
+                                    setModalRemoveTransacao(true)
+                                    setTransacaoId(item.id)
+                                  }}
+                                >
+                                  <FiTrash />
+                                </Button>
+                              </ButtonIcon>
+                            }
 
                             {!item.efetivado ? (
                               <ButtonIcon tooltip="Efetivar transação">
@@ -358,7 +363,7 @@ const TransacoesList = () => {
                                 </ButtonIcon>
                               )}
 
-                            {!item.vistoAdmin && (
+                            {!item.vistoAdmin && !isFuncionario && (
                               <ButtonIcon tooltip="Marcar como visto">
                                 <IoCheckmarkDoneSharp
                                   size={20}
