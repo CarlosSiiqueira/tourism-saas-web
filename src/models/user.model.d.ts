@@ -34,6 +34,7 @@ export interface IUser {
   createdAt: Date
   updatedAt: Date
   termsOfPrivacy: boolean
+  profiles: IRole[]
 }
 
 export interface IUser {
