@@ -14,7 +14,7 @@ definitions:
         script:
           - pipe: sonarsource/sonarqube-scan:2.0.1
             variables:
-              SONAR_HOST_URL: https://sonarqube.fiibo.digital/
+              SONAR_HOST_URL: https://sonarqube.prados.digital/
               SONAR_TOKEN: ${SONAR_TOKEN}
               EXTRA_ARGS: -Dsonar.projectKey=${BITBUCKET_REPO_SLUG}
 

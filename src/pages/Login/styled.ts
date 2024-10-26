@@ -22,7 +22,7 @@ export const FieldWrap = chakra(Box, {
         fontSize: pixelToRem(18),
       },
 
-      "&.getFiibo": {
+      "&.getPrados": {
         color: "text.first",
         borderBottomColor: "text.first",
       },

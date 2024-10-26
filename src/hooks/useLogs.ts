@@ -14,12 +14,14 @@ import { Warning } from "../errors";
 import { keys, queryClient } from "../services/query";
 import { getDifferencesWithNewValues } from "../utils/logDataFormater";
 
-const getLogs = ({ page, size }: ILogsArgs): ILogsResponse => {
+const getLogs = ({ page, size, tipo,descricao }: ILogsArgs): ILogsResponse => {
 
   const { data, isLoading } = useQuery(
     [
       keys.logs,
-      page
+      page,
+      tipo,
+      descricao
     ],
     async () => {
       const path = 'log/index';
@@ -28,7 +30,9 @@ const getLogs = ({ page, size }: ILogsArgs): ILogsResponse => {
         const { data } = await apiPrados.get(path, {
           params: {
             page,
-            size
+            size,
+            tipo,
+            descricao
           },
         });
 

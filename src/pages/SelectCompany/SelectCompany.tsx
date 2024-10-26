@@ -46,7 +46,7 @@ const SelectProfile = () => {
 
       if (data.length === 1) {
         setDataCookie({
-          key: "@fiibo.company",
+          key: "@prados.company",
           value: JSON.stringify(data[0].company),
         });
 
@@ -59,7 +59,7 @@ const SelectProfile = () => {
         setIsLoading(false);
       } else {
         setDataCookie({
-          key: "@fiibo.companies",
+          key: "@prados.companies",
           value: JSON.stringify(data),
         });
 
@@ -82,7 +82,7 @@ const SelectProfile = () => {
 
   const handle = (identify: IUserCompany) => {
     setDataCookie({
-      key: "@fiibo.company",
+      key: "@prados.company",
       value: JSON.stringify(identify.company),
     });
 

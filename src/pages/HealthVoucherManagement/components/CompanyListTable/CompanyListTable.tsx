@@ -6,7 +6,7 @@ import { FiUsers } from "react-icons/fi";
 import ButtonIcon from "../../../../components/ButtonIcon";
 import Pagination from "../../../../components/Pagination";
 import TooltipSubstring from "../../../../components/TooltipSubstring/TooltipSubstring";
-import { WalletAssociatedCompany } from "../../../../models/fiibo.model";
+import { WalletAssociatedCompany } from "../../../../models/prados.model";
 import { cnpjMask, dateFormat, pixelToRem } from "../../../../utils";
 import { capitalize } from "../../../../utils/capitalize";
 import { ExpandButton } from "../CompanyList/styled";

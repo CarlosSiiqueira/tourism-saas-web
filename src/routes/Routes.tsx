@@ -44,6 +44,7 @@ import RelatorioPacote from "../pages/RelatorioPacotes";
 import Comissao from "../pages/Comissao";
 import RelatorioVenda from "../pages/RelatorioVendas";
 import RelatorioFornecedor from "../pages/RelatorioFornecedor";
+import ResetPasswords from "../pages/ResetPasswords";
 
 export const AppRoutes = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ export const AppRoutes = () => {
     <Routes>
       {/* Rotas para todos os perfis autenticados */}
       <Route element={<ProtectedRoute isAuth={!!user} />}>
+        <Route path="/senha" element={<ResetPasswords />} />
         <Route path="/reservas" element={<Reservas />} />
         <Route path="/reservas/:id/voucher" element={<Voucher />} />
         <Route path="/reservas/:id/ticket" element={<Ticket />} />

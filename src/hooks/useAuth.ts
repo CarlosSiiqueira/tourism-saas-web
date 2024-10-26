@@ -15,12 +15,12 @@ const refreshToken = async (): Promise<void> => {
   })
 
   setDataCookie({
-    key: "@fiibo.token",
+    key: "@prados.token",
     value: cognitoResponse.data.accessToken
   })
 
   setDataCookie({
-    key: "@fiibo.refreshToken",
+    key: "@prados.refreshToken",
     value: cognitoResponse.data.refreshToken
   })
 
@@ -28,7 +28,7 @@ const refreshToken = async (): Promise<void> => {
     const { data } = await apiRecord.get<IUser>("users/me")
 
     setDataCookie({
-      key: "@fiibo.data",
+      key: "@prados.data",
       value: JSON.stringify(data)
     })
   }

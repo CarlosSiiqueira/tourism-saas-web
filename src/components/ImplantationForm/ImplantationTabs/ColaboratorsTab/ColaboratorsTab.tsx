@@ -183,7 +183,7 @@ const ColaboratorsTab: React.FC<Props> = ({
             variant="link"
             onClick={() =>
               window.open(
-                "https://s3.amazonaws.com/fiibo.digital/static/media/import_vidas.xlsx",
+                "",
                 "_self",
               )
             }

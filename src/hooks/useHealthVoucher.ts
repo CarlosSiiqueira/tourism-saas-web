@@ -148,7 +148,7 @@ export function useHealthVoucher() {
 
   const { data: companyBalance, isFetching: isFetchingCompanyBalance } =
     useQuery({
-      queryKey: "fiibo:balance",
+      queryKey: "prados:balance",
       queryFn: getBalance,
       refetchOnWindowFocus: true
     })
@@ -156,7 +156,7 @@ export function useHealthVoucher() {
   const { data: transactionHistory, isFetching: isFetchingTransactionHistory } =
     useQuery({
       queryKey: [
-        "fiibo-wallet:transaction-history",
+        "prados-wallet:transaction-history",
         transactionHistoryPage,
         companiesHistoryFilters
       ],
@@ -169,7 +169,7 @@ export function useHealthVoucher() {
     refetch: fetchInsertCreditHistory
   } = useQuery({
     queryFn: getCreditRequestHistory,
-    queryKey: ["fiibo:credit-request-history", creditRequestPage],
+    queryKey: ["prados:credit-request-history", creditRequestPage],
     refetchOnWindowFocus: true
   })
 
@@ -179,7 +179,7 @@ export function useHealthVoucher() {
     refetch: fetchTransferCreditHistory
   } = useQuery({
     queryKey: [
-      "fiibo:transfer-credit-history",
+      "prados:transfer-credit-history",
       transferCreditPage,
       transferCreditFilter
     ],
@@ -193,7 +193,7 @@ export function useHealthVoucher() {
     refetch: fetchCompanyImports
   } = useQuery({
     queryFn: getCompanyImports,
-    queryKey: ["import:fiibo", importCompanyPage, importCompanyFilter],
+    queryKey: ["import:prados", importCompanyPage, importCompanyFilter],
     refetchOnWindowFocus: true
   })
 
@@ -203,7 +203,7 @@ export function useHealthVoucher() {
     refetch: fetchLinkedCompanies
   } = useQuery({
     queryFn: getLinkedCompanies,
-    queryKey: "fiibo-companies-linked"
+    queryKey: "prados-companies-linked"
   })
 
   const {
@@ -213,7 +213,7 @@ export function useHealthVoucher() {
   } = useQuery({
     queryFn: getImportBeneficiariesHistory,
     queryKey: [
-      "fiibo-beneficiaries-history",
+      "prados-beneficiaries-history",
       importBeneficiariesPage,
       importBeneficiariesFilter
     ]
@@ -224,34 +224,34 @@ export function useHealthVoucher() {
     isFetching: isFetchingBalancePerCompanyData
   } = useQuery({
     queryFn: getBalanceByCompanies,
-    queryKey: ["fiibo:balance-per-company", company!.externalCompanyId, reportPage],
+    queryKey: ["prados:balance-per-company", company!.externalCompanyId, reportPage],
     refetchOnWindowFocus: true
   })
 
   const handleDownloadTemplateCompanyImports = () => {
     window.open(
-      "https://fiibo.digital/static/media/Import%2BEmpresas+.csv",
+      "https://prados.digital/static/media/Import%2BEmpresas+.csv",
       "_blank"
     )
   }
 
   const handleDownloadTemplateBalanceImport = () => {
     window.open(
-      "https://fiibo.digital/static/media/Import+Incl+Saldo.csv",
+      "https://prados.digital/static/media/Import+Incl+Saldo.csv",
       "_blank"
     )
   }
 
   const handleDownloadTemplateTransferBalance = () => {
     window.open(
-      "https://fiibo.digital/static/media/Import+Trasf+Saldo.csv",
+      "https://prados.digital/static/media/Import+Trasf+Saldo.csv",
       "_blank"
     )
   }
 
   const handleDownloadTemplateEmployeeImports = () => {
     window.open(
-      "https://fiibo.digital/static/media/Import+Colaboradores.csv",
+      "https://prados.digital/static/media/Import+Colaboradores.csv",
       "_blank"
     )
   }

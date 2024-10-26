@@ -241,7 +241,7 @@ const TOPIC_FROM_TO: IGenericObject = {
   ["companyPortalQuestions"]: "Dúvidas portal da empresa",
   ["financial"]: "Financeiro",
   ["brokerAgent"]: "Corretora",
-  ["aboutFiibo"]: "Sobre a fiibo",
+  ["aboutPrados"]: "Sobre a prados",
   ["productsAndServices"]: "Produtos e serviços",
 };
 

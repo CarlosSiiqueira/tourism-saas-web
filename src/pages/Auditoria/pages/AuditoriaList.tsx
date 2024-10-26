@@ -1,46 +1,34 @@
 import { Box, Button, Flex, TableContainer, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { IoIosAdd } from "react-icons/io";
 import FieldSearch from "../../../components/FieldSearch";
 import Loading from "../../../components/Loading";
 import Pagination from "../../../components/Pagination";
-import { TBody, TD, THead, TR, Table } from "../../../components/Table";
 
 // Styled Components
 import { Content, SectionTop } from "./styled";
 
 // Hooks and utils
 import ReactSelect from "react-select";
-import SimpleModal from "../../../components/SimpleModal";
 import { ISelect } from "../../../models/generics.model";
 import AlertNoDataFound from "../../../components/AlertNoDataFound";
-import { MdEdit } from "react-icons/md";
-import ButtonIcon from "../../../components/ButtonIcon";
-import { FiTrash } from "react-icons/fi";
-import AlertModal from "../../../components/AlertModal";
 import useLogs from "../../../hooks/useLogs";
-import { ILogs } from "../../../models/logs.model";
 import { currencyBRLFormat } from "../../../utils/currencyBRLFormat";
 import { formattingDate } from "../../../utils/formattingDate";
 import { FaFileExcel } from "react-icons/fa";
 
 const AuditoriaList = () => {
-    const { getLogs, deleteLogs } = useLogs();
+    const { getLogs } = useLogs();
     const [statusSelected, setStatusSelected] = useState<ISelect | null>();
     const [resetFilter, setResetFilter] = useState(false);
-    const [modalRegisterLogs, setModalRegisterLogs] = useState(false);
-    const [modalUpdateLogs, setModalUpdateLogs] = useState(false);
-    const [modalRemoveLogs, setModalRemoveLogs] = useState(false);
-    const [LogsData, setLogsData] = useState<ILogs | undefined>();
     const [currentPage, setCurrentPage] = useState(1);
+    const [descricao, setDescricao] = useState('')
     const registerPerPage = 10;
-
-    const { mutate: mutateToDeleteLogs } = deleteLogs();
-    const [deleteItemId, setDeleteLogsId] = useState('');
 
     const { data, count, isLoading } = getLogs({
         size: registerPerPage,
-        page: currentPage
+        page: currentPage,
+        tipo: statusSelected?.value,
+        descricao
     });
 
 
@@ -67,25 +55,26 @@ const AuditoriaList = () => {
                 </SectionTop>
 
                 <SectionTop className="contentTop">
-                    
+
                 </SectionTop>
             </Flex>
 
             <Content className="contentMain">
                 <Flex width="100%" gap="15px" alignItems="flex-end" flexWrap="wrap">
                     <div className="searchWrap">
-                        <span>Buscar Conta Bancária</span>
+                        <span>Buscar Auditoria</span>
                         <FieldSearch
-                            placeholder="Nome"
-                            handleSearch={() => {
+                            placeholder="Usuário/Rotina"
+                            handleSearch={(event) => {
                                 setResetFilter(false);
                                 setCurrentPage(1);
+                                setDescricao(event)
                             }}
                             reset={resetFilter}
                         />
                     </div>
                     <Flex flexDirection="column" gap="5px" width="300px">
-                        <span>Status</span>
+                        <span>Tipo</span>
 
                         <ReactSelect
                             className="select-fields"
@@ -94,13 +83,14 @@ const AuditoriaList = () => {
                             isSearchable={true}
                             value={statusSelected}
                             placeholder="Selecionar"
-                            noOptionsMessage={() => "Nenhum Status encontrado"}
+                            noOptionsMessage={() => "Nenhum Tipo encontrado"}
                             onChange={(item) => {
                                 setStatusSelected(item);
                             }}
                             options={[
-                                { label: "Completo", value: 1 },
-                                { label: "Incompleto", value: 2 },
+                                { label: "Criação", value: 'CREATE' },
+                                { label: "Alteração", value: 'UPDATE' },
+                                { label: "Exclusão", value: 'DELETE' },
                             ]}
                         />
                     </Flex>

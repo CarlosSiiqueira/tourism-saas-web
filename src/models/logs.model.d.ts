@@ -15,6 +15,8 @@ export interface ILogs {
 export interface ILogsArgs {
   page: number;
   size: number;
+  tipo?: string | number
+  descricao?: string
 }
 
 export interface ILogsResponse {

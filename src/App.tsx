@@ -8,7 +8,7 @@ import { theme } from "./theme";
 import { GlobalProvider } from "./contexts/UserContext";
 import Fetching from "./components/Fetching/Fetching";
 import Routes from "./routes";
-import PoweredByFiibo from "./components/PoweredByFiibo";
+import PoweredByPrados from "./components/PoweredByPrados";
 
 const App = () => {
   return (
@@ -17,7 +17,7 @@ const App = () => {
         <GlobalProvider>
           <Fetching />
           <Routes />
-          <PoweredByFiibo />
+          <PoweredByPrados />
         </GlobalProvider>
       </ChakraProvider>
       <ReactQueryDevtools />

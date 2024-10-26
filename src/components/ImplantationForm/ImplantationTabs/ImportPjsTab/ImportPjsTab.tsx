@@ -167,7 +167,7 @@ const ImportPjsTab: React.FC<Props> = ({
             variant="link"
             onClick={() =>
               window.open(
-                "https://s3.amazonaws.com/fiibo.digital/static/media/Importacao+de+parceiros.xlsx",
+                "",
                 "_self",
               )
             }

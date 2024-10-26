@@ -7,7 +7,7 @@ import { Content, Header, OutlinedButton } from "./styled";
 import { useQuery } from "react-query";
 import { apiRecord, apiWallet } from "../../../../services/api";
 
-import { WalletAssociatedCompany } from "../../../../models/fiibo.model";
+import { WalletAssociatedCompany } from "../../../../models/prados.model";
 import { IPaginated } from "../../../../models/paginated.model";
 import EmployeesList from "./EmployeesList";
 import Loading from "../../../../components/Loading";
@@ -36,7 +36,7 @@ const CompanyList: React.FC = () => {
   const handlePagination = (page: number) => setCompaniesListPage(page);
 
   const { data: accounts, isFetching } = useQuery({
-    queryKey: ["fiibo@companies", status, companiesListPage],
+    queryKey: ["prados@companies", status, companiesListPage],
     queryFn,
   });
 
@@ -58,7 +58,7 @@ const CompanyList: React.FC = () => {
   };
 
   const { data: issuingCompany, isFetching: isFetchingIssuing } = useQuery({
-    queryKey: ["fiibo@issuingComany"],
+    queryKey: ["prados@issuingComany"],
     queryFn: fetchIssuingCompany,
   });
 

@@ -22,11 +22,11 @@ const Comparator = ({ isFetching, setCurrentTab }: IComparator) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     onBeforeGetContent: () => {
-      document.title = `comparador-fiibo.pdf`;
+      document.title = `comparador-prados.pdf`;
       setLoadingPrint(true);
     },
     onAfterPrint: () => {
-      document.title = `Fiibo - Produtos`;
+      document.title = `Prados - Produtos`;
       setLoadingPrint(false);
     },
   });

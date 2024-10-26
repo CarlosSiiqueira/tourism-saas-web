@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useToastStandalone } from "./useToastStandalone";
-import { apiPermissionNoAuth, apiPermission } from "../services/api";
+import { apiPermissionNoAuth, apiPrados } from "../services/api";
 
 // Types
 import {
@@ -75,8 +75,8 @@ export default function useUser(): IUseUser {
         confirmationPassword: password.password,
       };
 
-      await apiPermission
-        .put(`/user/${user?.id}`, data)
+      await apiPrados
+        .patch(`/usuarios/change-password/${user?.id}`, data)
         .then(() => {
           useToastStandalone({
             description: "Senha alterada com sucesso!",

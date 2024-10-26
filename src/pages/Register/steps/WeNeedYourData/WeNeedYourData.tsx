@@ -18,7 +18,7 @@ import { IWeNeedYourData } from "./types";
 import useSignUp from "../../../../hooks/useSignUp";
 import { emailValidation } from "../../../../utils/fieldValidation";
 import { emailInvalid } from "../../../../utils/messagesError";
-import { handleCheckEmail, handleRegister } from "../../../../hooks/useFiibo";
+import { handleCheckEmail, handleRegister } from "../../../../hooks/usePrados";
 import { isDateLessThan150YearsAgo } from "../../../../utils/formattingDate";
 
 const WeNeedYourData = ({

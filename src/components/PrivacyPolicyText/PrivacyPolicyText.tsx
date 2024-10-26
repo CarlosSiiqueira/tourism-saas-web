@@ -8,7 +8,7 @@ const PrivacyPolicyText = () => {
       </h2>
       <p>
         <strong>Agente de tratamento:</strong>
-        <br /> Fiibo Saude e Bem-Estar LTDA <br />
+        <br /> Prados Saude e Bem-Estar LTDA <br />
         25.100.638/0001-25
         <br /> Avenida dos Autonomistas, nº 896, Anexo 900, Torre Santorini,
         Conj 1210, CEP sob nº 06.020-012, Bairro Vila Yara
@@ -37,7 +37,7 @@ const PrivacyPolicyText = () => {
         <br />
         Base legal: execução de contrato
         <br />
-        · Viabilizar a comunicação entre a Fiibo e o Usuário decorrente da
+        · Viabilizar a comunicação entre a Prados e o Usuário decorrente da
         adesão de benefícios;
         <br />
         Base legal: execução de contrato
@@ -63,7 +63,7 @@ const PrivacyPolicyText = () => {
       <p>
         A presente Política de Privacidade contém informações sobre coleta, uso,
         armazenamento, tratamento e proteção dos dados pessoais dos usuários e
-        visitantes da <b>PLATAFORMA FIIBO</b>, tanto através do aplicativo ou do
+        visitantes da <b>PLATAFORMA PRADOS</b>, tanto através do aplicativo ou do
         website, com a finalidade de demonstrar absoluta transparência quanto ao
         assunto e esclarecer a todos interessados sobre os tipos de dados quesão
         coletados, os motivos da coleta e a forma como os usuários podem
@@ -71,9 +71,9 @@ const PrivacyPolicyText = () => {
       </p>
       <p>
         Esta Política de Privacidade aplica-se a todos os usuários da PLATAFORMA
-        FIIBO, tanto atravésdo aplicativo como do website, e integra os Termos e
-        Condições Gerais de Uso da <b>PLATAFORMA FIIBO</b>, de titularidade da
-        Interbrasil Tecnologia LTDA (“FIIBO”) devidamente inscrita no CNPJsob o
+        PRADOS, tanto atravésdo aplicativo como do website, e integra os Termos e
+        Condições Gerais de Uso da <b>PLATAFORMA PRADOS</b>, de titularidade da
+        Interbrasil Tecnologia LTDA (“PRADOS”) devidamente inscrita no CNPJsob o
         nº 25.100.638/0001-25, com sede na Avenida dos Autonomistas, nº 896,
         Anexo 900, Torre Santorini, Conj 1210, CEP sob nº 06.020-012, Bairro
         Vila Yara, Osasco – São Paulo.
@@ -84,7 +84,7 @@ const PrivacyPolicyText = () => {
         (Lei 12.965/14 e o Regulamento da UE n. 2016/6790).
       </p>
       <p>
-        A <b>PLATAFORMA FIIBO</b>, pela natureza dos Serviços prestados, poderá
+        A <b>PLATAFORMA PRADOS</b>, pela natureza dos Serviços prestados, poderá
         acessar, coletar, armazenar e, em alguns casos, revelar informações de
         seus usuários e visitantes relativas aos dados cadastrais e registros de
         acesso ao seu Site/App, para terceiros, tais como, fornecedores,
@@ -167,11 +167,11 @@ const PrivacyPolicyText = () => {
       </h2>
       <p>
         <strong>3.1.</strong> A primeira providência para utilizar a{" "}
-        <b>PLATAFORMA FIIBO</b> é cadastrar-se e informar seus dados pessoais
+        <b>PLATAFORMA PRADOS</b> é cadastrar-se e informar seus dados pessoais
         (&ldquo;Informação Pessoal&ldquo;) completos e exatos.
       </p>
       <p>
-        <strong>3.2.</strong> Ao criar uma conta na <b>PLATAFORMA FIIBO</b>,
+        <strong>3.2.</strong> Ao criar uma conta na <b>PLATAFORMA PRADOS</b>,
         poderão ser coletadas informações importantes para uma melhor
         experiência do usuário. Essas informações são divididas em dados que
         você nos fornece e dados gerados durante a utilização dos serviços:
@@ -199,7 +199,7 @@ const PrivacyPolicyText = () => {
       <p>
         <strong>4.2.</strong> Dados pessoais e dados pessoais sensíveis de
         menores de idade são tratados por meio de autorização específica,
-        concedida diretamente à Fiibo, de acordo com uma cláusula específica e
+        concedida diretamente à Prados, de acordo com uma cláusula específica e
         em destaque em contrato ou condições gerais e indiretamente pelo
         intermédio de Corretores, estipulantes (empresas que contratam
         benefícios para seus funcionários), etc., que são responsáveis por
@@ -248,7 +248,7 @@ const PrivacyPolicyText = () => {
         <strong>Parceiro:</strong> No geral, os fornecedores terceirizados
         usados pela{" "}
         <b>
-          <b>PLATAFORMA FIIBO</b>
+          <b>PLATAFORMA PRADOS</b>
         </b>{" "}
         irão apenas coletar, usar e divulgar suas informações na medida do
         necessário para permitir que estes terceiros realizem seus serviços.
@@ -258,13 +258,13 @@ const PrivacyPolicyText = () => {
         <strong>6. SEGURANÇA DOS DADOS ARMAZENADOS</strong>
       </h2>
       <p>
-        <strong>6.1.</strong> A <b>PLATAFORMA FIIBO</b> emprega diversas
+        <strong>6.1.</strong> A <b>PLATAFORMA PRADOS</b> emprega diversas
         técnicas de segurança, como limitar o acesso a locais de armazenamento
         de dados pessoais apenas a pessoas previamente autorizadas para proteger
         os dados disponibilizados e armazenados de acessos não autorizados.
       </p>
       <p>
-        <strong>6.2.</strong> A <b>PLATAFORMA FIIBO</b> se compromete a aplicar
+        <strong>6.2.</strong> A <b>PLATAFORMA PRADOS</b> se compromete a aplicar
         as medidas técnicas e organizativas aptas a proteger os dados pessoais
         de acessos não autorizados e de situações de destruição, perda,
         alteração, comunicação ou difusão de tais dados.
@@ -275,7 +275,7 @@ const PrivacyPolicyText = () => {
         divulgar suas informações caso sejamos obrigados pela lei para fazê-lo.
       </p>
       <p>
-        <strong>6.4.</strong> Os dados informados na <b>PLATAFORMA FIIBO</b>{" "}
+        <strong>6.4.</strong> Os dados informados na <b>PLATAFORMA PRADOS</b>{" "}
         podem ser utilizados para aprimorar os mecanismos de segurança, analisar
         e solucionar problemas técnicos, bem como identificar e coibir fraudes
         na utilização.
@@ -309,7 +309,7 @@ const PrivacyPolicyText = () => {
       <p>
         <strong>7.1.3. Bem-estar do usuário:</strong> aprimorar o produto e/ou
         serviço oferecido, facilitar, agilizar e cumprir os compromissos
-        estabelecidos entre o usuário e a PLATAFORMA FIIBO, melhorar a
+        estabelecidos entre o usuário e a PLATAFORMA PRADOS, melhorar a
         experiência dos usuários e fornecer funcionalidades específicas a
         depender das características básicas do usuário;
       </p>
@@ -349,9 +349,9 @@ const PrivacyPolicyText = () => {
         privacidade previstas nesta Política e na legislação aplicável.
       </p>
       <p>
-        <strong>8.2.</strong> A FIIBO armazena as suas informações durante o
+        <strong>8.2.</strong> A PRADOS armazena as suas informações durante o
         período necessário para as finalidades apresentadas nos Termos e
-        Condições de Uso da <b>PLATAFORMA FIIBO</b> e nesta Política de
+        Condições de Uso da <b>PLATAFORMA PRADOS</b> e nesta Política de
         Privacidade, respeitando o período de retenção de dados determinado pela
         legislação aplicável.
       </p>
@@ -361,7 +361,7 @@ const PrivacyPolicyText = () => {
       </h2>
       <p>
         <strong>9.1.</strong> Os dados pessoais do usuário são armazenados pela
-        <b>PLATAFORMA FIIBO</b> durante o período necessário à prestação do
+        <b>PLATAFORMA PRADOS</b> durante o período necessário à prestação do
         serviço ou o cumprimento das finalidades previstas no presente
         documento, conforme o disposto no inciso I do artigo 15 da Lei
         13.709/18.
@@ -446,7 +446,7 @@ const PrivacyPolicyText = () => {
         <strong>12. REQUERIMENTOS LEGAIS</strong>
       </h2>
       <p>
-        A <b>PLATAFORMA FIIBO</b> coopera com as autoridades competentes e com
+        A <b>PLATAFORMA PRADOS</b> coopera com as autoridades competentes e com
         terceiros para garantir o cumprimento das leis, salvaguardar a
         integridade e a segurança do aplicativo/site e de seus Usuários, impedir
         atividades ilegais, por exemplo, em matéria de proteção de direitos de
@@ -470,10 +470,10 @@ const PrivacyPolicyText = () => {
         <strong>14. SERVIÇOS DE TERCEIROS</strong>
       </h2>
       <p>
-        No geral, os fornecedores terceirizados usados pela PLATAFORMA FIIBO
+        No geral, os fornecedores terceirizados usados pela PLATAFORMA PRADOS
         irão apenas coletar, usar e divulgar suas informações na medida do
         necessário para permitir que estes terceiros realizem seus serviços.
-        Para esses fornecedores a <b>PLATAFORMA FIIBO</b> aconselha aos Usuários
+        Para esses fornecedores a <b>PLATAFORMA PRADOS</b> aconselha aos Usuários
         que leiam as políticas de privacidade daqueles para que fique claro a
         maneira na qual as informações pessoais dos Usuários serão usadas por
         esses fornecedores, em seus próprios negócios.
@@ -508,7 +508,7 @@ const PrivacyPolicyText = () => {
       <p>
         Se o Usuário quiser saber mais sobre a presente Política e como a
         Plataforma utiliza os seus dados pessoais, poderá entrar em contato
-        conosco por meio do e-mail <strong>privacidade@fiibo.com.br</strong>
+        conosco por meio do e-mail <strong>privacidade@prados.com.br</strong>
       </p>
       <br />
       <h2>

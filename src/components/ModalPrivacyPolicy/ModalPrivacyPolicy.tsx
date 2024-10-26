@@ -63,7 +63,7 @@ const ModalPrivacyPolicy = () => {
           </Stack>
           <Stack p="32px 24px">
             <Text fontSize={pixelToRem(14)} lineHeight="21px" mb="20px">
-              Na Fiibo, enfatizamos a transparência e a confiança com nossos
+              Na Prados, enfatizamos a transparência e a confiança com nossos
               usuários, destacando a importância da privacidade. Nossa Política
               de Privacidade é um compromisso claro de proteger as informações
               pessoais dos usuários, detalhando como coletamos, armazenamos e
@@ -72,7 +72,7 @@ const ModalPrivacyPolicy = () => {
               controle sobre as informações pessoais.
             </Text>
             <Text fontSize={pixelToRem(14)} lineHeight="21px">
-              Na Fiibo, comprometemo-nos a oferecer transparência e a proteger a
+              Na Prados, comprometemo-nos a oferecer transparência e a proteger a
               privacidade, e a leitura cuidadosa da Política de Privacidade
               reflete esse compromisso.
             </Text>
@@ -103,7 +103,7 @@ const ModalPrivacyPolicy = () => {
                 >
                   Política de Privacidade
                 </span>{" "}
-                da Fiibo
+                da Prados
               </Text>
             </Flex>
             <Button

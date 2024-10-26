@@ -32,7 +32,7 @@ const TermsOfUse = () => {
         </Stack>
         <Stack p="32px 24px">
           <Text fontSize={pixelToRem(14)} lineHeight="21px" mb="20px">
-            Na Fiibo, valorizamos a transparência e a comunicação aberta com os
+            Na Prados, valorizamos a transparência e a comunicação aberta com os
             usuários. Destacamos a importância de ler cuidadosamente o Termo de
             Uso antes da assinatura, que define as responsabilidades e direitos
             de ambas as partes. Incentivamos fortemente os usuários a entenderem
@@ -72,7 +72,7 @@ const TermsOfUse = () => {
               >
                 Termo de Uso
               </span>{" "}
-              da plataforma da Fiibo
+              da plataforma da Prados
             </Text>
           </Flex>
           <Button

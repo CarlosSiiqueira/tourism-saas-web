@@ -5,7 +5,7 @@ import { Box, Flex, PinInput, Text } from "@chakra-ui/react";
 import { pixelToRem } from "../../../../utils";
 import { PinInputField } from "./styled";
 import useUser from "../../../../hooks/useUser";
-import { handleResendCodeEmail } from "../../../../hooks/useFiibo";
+import { handleResendCodeEmail } from "../../../../hooks/usePrados";
 
 const YourAuthentication = ({
   email,

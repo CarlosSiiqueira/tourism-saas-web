@@ -39,7 +39,7 @@ const Register = ({ demonstration }: IRegister) => {
   const theme = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
-  const isFiibo = theme?.content?.project === "Fiibo";
+  const isPrados = theme?.content?.project === "Prados";
   const { signOut } = useGlobal();
   const [step, setStep] = useState(1);
   const [progressValue, setProgressValue] = useState(25);
@@ -110,7 +110,7 @@ const Register = ({ demonstration }: IRegister) => {
               {theme.content.project}
             </Logo>
 
-            <a href={isFiibo ? "https://fiibo.com.br/" : "/login"}>
+            <a href={isPrados ? "https://prados.com.br/" : "/login"}>
               Voltar para o início
             </a>
           </Header>

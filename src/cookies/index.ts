@@ -6,7 +6,7 @@ import { setCookie, parseCookies, destroyCookie } from "nookies";
 export const getWelcome = (): string | null => {
   const cookies = parseCookies();
 
-  return cookies["@fiibo.welcome"] || null;
+  return cookies["@prados.welcome"] || null;
 };
 
 export const getToken = (): string | null => {
@@ -18,7 +18,7 @@ export const getToken = (): string | null => {
 export const getRefreshToken = (): string | null => {
   const cookies = parseCookies();
 
-  return cookies["@fiibo.refreshToken"] || null;
+  return cookies["@prados.refreshToken"] || null;
 };
 
 export const getUser = (): IUser | null => {
@@ -30,42 +30,42 @@ export const getUser = (): IUser | null => {
 
 export const getRole = (): IRole | null => {
   const cookies = parseCookies();
-  const roleData = cookies["@fiibo.role"];
+  const roleData = cookies["@prados.role"];
 
   return roleData ? JSON.parse(roleData) : null;
 };
 
 export const getRoles = (): IRole[] | [] => {
   const cookies = parseCookies();
-  const rolesData = cookies["@fiibo.roles"];
+  const rolesData = cookies["@prados.roles"];
 
   return rolesData ? JSON.parse(rolesData) : [];
 };
 
 export const getCompany = (): any | null => {
   const cookies = parseCookies();
-  const companyData = cookies["@fiibo.company"];
+  const companyData = cookies["@prados.company"];
 
   return companyData ? JSON.parse(companyData) : null;
 };
 
 export const getCompanies = (): any | null => {
   const cookies = parseCookies();
-  const companyData = cookies["@fiibo.companies"];
+  const companyData = cookies["@prados.companies"];
 
   return companyData ? JSON.parse(companyData) : [];
 };
 
 export const getPermissions = (): any | null => {
   const cookies = parseCookies();
-  const permissionsData = cookies["@fiibo.permissions"];
+  const permissionsData = cookies["@prados.permissions"];
 
   return permissionsData ? JSON.parse(permissionsData) : [];
 };
 
 export const getUseTerm = (): any | null => {
   const cookies = parseCookies();
-  const termData = cookies["@fiibo.term"];
+  const termData = cookies["@prados.term"];
 
   return termData ? JSON.parse(termData) : [];
 };
@@ -84,14 +84,14 @@ export const setDataCookie = ({
 };
 
 export const removeAllCookies = (): void => {
-  destroyCookie(null, "@fiibo.welcome");
+  destroyCookie(null, "@prados.welcome");
   destroyCookie(null, "@prados.token");
-  destroyCookie(null, "@fiibo.refreshToken");
+  destroyCookie(null, "@prados.refreshToken");
   destroyCookie(null, "@prados.user");
-  destroyCookie(null, "@fiibo.role");
-  destroyCookie(null, "@fiibo.roles");
-  destroyCookie(null, "@fiibo.company");
-  destroyCookie(null, "@fiibo.companies");
-  destroyCookie(null, "@fiibo.permissions");
-  destroyCookie(null, "@fiibo.term");
+  destroyCookie(null, "@prados.role");
+  destroyCookie(null, "@prados.roles");
+  destroyCookie(null, "@prados.company");
+  destroyCookie(null, "@prados.companies");
+  destroyCookie(null, "@prados.permissions");
+  destroyCookie(null, "@prados.term");
 };

@@ -88,7 +88,7 @@ const SelectProfile = () => {
     const profile = roles.find((role) => role.name === identify) || null;
 
     setDataCookie({
-      key: "@fiibo.role",
+      key: "@prados.role",
       value: JSON.stringify(profile),
     });
 

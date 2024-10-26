@@ -82,7 +82,7 @@ export interface IMovimentation {
   lote_wallet: number;
   entranda: number;
   saida: number;
-  // saldo_fiibo: any
+  // saldo_prados: any
   published_at: string;
   created_by: number;
   updated_by: number;

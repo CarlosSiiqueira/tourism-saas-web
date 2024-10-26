@@ -72,7 +72,11 @@ const ValidatePassword = ({
 
   function validatePasswordConfirmed(value: string) {
     setPassPassword(true);
-    setValidPassword(true);
+
+    if (passLetraMaiuscula && passLetraMinuscula && passEspecial && passMinimo && passNumero) {
+      setValidPassword(true);
+    }
+
     if (
       (form.password !== value && form.password2 !== value) ||
       (form.password2 !== value && form.password.length < 1) ||

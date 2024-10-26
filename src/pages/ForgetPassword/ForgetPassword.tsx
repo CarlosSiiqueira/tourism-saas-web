@@ -30,7 +30,7 @@ const handleSubmitRegisterSchema = z.object({
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>
 
-const MyFiibo = () => {
+const MyPrados = () => {
   const theme = useTheme()
   const { forgetPassword } = useUser()
   const { isLoading, call } = forgetPassword()
@@ -93,4 +93,4 @@ const MyFiibo = () => {
   )
 }
 
-export default MyFiibo
+export default MyPrados

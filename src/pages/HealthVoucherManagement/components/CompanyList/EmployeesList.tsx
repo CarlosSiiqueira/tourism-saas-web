@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import Loading from "../../../../components/Loading/Loading";
 import Pagination from "../../../../components/Pagination";
 import { TBody, TD, TH, THead, TR, Table } from "../../../../components/Table";
-import { IEmployeesList } from "../../../../models/fiibo.model";
+import { IEmployeesList } from "../../../../models/prados.model";
 import { IPaginated } from "../../../../models/paginated.model";
 import { apiWallet } from "../../../../services/api";
 import { SearchInputWrapper } from "./styled";
@@ -39,7 +39,7 @@ const EmployeesList: React.FC<Props> = ({ companyId, companyAssociatedId }) => {
     refetch: fetchEmployees,
   } = useQuery({
     queryKey: [
-      "fiibo@employees",
+      "prados@employees",
       employeesListPage,
       companyId,
       companyAssociatedId,

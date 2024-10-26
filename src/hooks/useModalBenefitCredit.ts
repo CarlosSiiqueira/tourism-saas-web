@@ -74,7 +74,7 @@ export function useModalBenefitCredit() {
     refetch: fetchLinkedCompanies,
   } = useQuery({
     queryFn: getLinkedCompanies,
-    queryKey: "fiibo-companies-linked",
+    queryKey: "prados-companies-linked",
   });
 
   const handleCreditInputBlur = () => {
