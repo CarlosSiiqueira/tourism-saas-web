@@ -34,6 +34,8 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 import useFornecedor from '../../../../hooks/useFornecedor';
 import { dateFormat } from '../../../../utils';
 import useFormaPagamento from '../../../../hooks/useFormaPagamento';
+import useLocalEmbarque from '../../../../hooks/useLocalEmbarque';
+import { IOption } from '../../../../components/SelectForm/types';
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -69,6 +71,16 @@ const handleSubmitRegisterSchema = z.object({
   observacoes: z
     .string()
     .optional(),
+  qtdMinVendas: z
+    .number()
+    .min(0, {
+      message: fieldRequired('Defina o valor minimo de vendas')
+    }),
+  localEmbarque: z
+    .array(z.string())
+    .min(1, {
+      message: fieldRequired('Defina os locais de embarque')
+    })
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -84,6 +96,7 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
   const { getAllFornecedores } = useFornecedor();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getAllFormaPagamentos } = useFormaPagamento()
+  const { getLocalEmbarque } = useLocalEmbarque()
 
   const [items, setItems] = useState<{
     fornecedor: {
@@ -123,6 +136,7 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
   const { data: dataPacotes, isLoading: loadingPacotes } = getAllPacotes();
   const { data: dataFornecedores, isLoading: loadingFornecedores } = getAllFornecedores();
   const { data: dataFormaPagamento, isLoading: loadingFormaPagamento } = getAllFormaPagamentos();
+  const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
     mutate({
@@ -258,6 +272,7 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
             isRequired
             errors={errors.vagas}
           />
+
           <FormInputNumber
             height="40px"
             label="Valor"
@@ -270,6 +285,18 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
             isRequired
             errors={errors.valor}
           />
+
+          <FormInputNumber
+            height='40px'
+            label='Quantidade minima para venda'
+            {...register('qtdMinVendas')}
+            setValue={setValue}
+            flex='1.01'
+            name='qtdMinVendas'
+            isRequired
+            errors={errors.qtdMinVendas}
+          />
+
           <FormInput
             id="observacoes"
             label="Observações"
@@ -279,6 +306,30 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
             errors={errors.observacoes}
             onChangeTextarea={(event) => setValue('observacoes', event.target.value || '')}
           />
+
+          <FieldWrap>
+            <span>Locais De Embarque <Asterisk /></span>
+            <ReactSelect
+              {...register('localEmbarque')}
+              name="localEmbarqueId"
+              className="select-fields"
+              classNamePrefix="select"
+              closeMenuOnSelect={true}
+              isSearchable={true}
+              placeholder="Selecionar"
+              noOptionsMessage={() => "Nenhum local encontrado"}
+              isLoading={isLoadingLocalEmbarque}
+              required
+              isMulti
+              onChange={(item) => {
+                setValue('localEmbarque', item?.map((item: IOption) => item?.value.toString()) || [])
+              }}
+              options={localEmbarqueData.map((local) => {
+                return { value: local.id, label: `${local.horaEmbarque} - ${local.nome}` }
+              })}
+            />
+
+          </FieldWrap>
 
           <Flex justifyContent="space-between">
             <Flex justifyContent="start">

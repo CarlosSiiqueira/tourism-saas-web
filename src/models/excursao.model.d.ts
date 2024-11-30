@@ -12,6 +12,7 @@ export interface IExcursao {
   codigoPacote: string
   usuarioCadastro: string
   concluida: boolean
+  qtdMinVendas: number
   ExcursaoPassageiros: {
     id: string
     reserva: string
@@ -62,6 +63,15 @@ export interface IExcursao {
       valor: number
     }[]
   }
+  LocalEmbarque: {
+    id: string
+    nome: string
+    observacoes: string
+    horaEmbarque: string
+    ativo: boolean
+    codigoEndereco: string
+    usuarioCadastro: string
+  }[]
 }
 
 export interface IExcursaoArgs {
@@ -83,6 +93,7 @@ export interface IDataExcursao {
   vagas: number
   codigoPacote: string
   usuarioCadastro: string
+  qtdMinVendas: number
 }
 
 export interface IExcursaoResponse {
@@ -106,10 +117,14 @@ export interface ICreateExcursaoArgs {
   vagas: number
   codigoPacote: string
   usuarioCadastro: string
+  qtdMinVendas: number
   itensAdicionais: {
     idFornecedor: string
     valor: number
     data: string
+  }[]
+  localEmbarque: {
+    id: string
   }[]
 }
 

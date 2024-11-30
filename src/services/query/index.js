@@ -1,6 +1,7 @@
 import { queryClient, generateQueryClient } from "./queryClient";
 
 const keys = {
+  imagem: "imagem",
   financeiroFornecedor: "financeiroFornecedor",
   financeiroExcursao: "financeiroExcursao",
   financeiroPacote: "financeiroPacote",

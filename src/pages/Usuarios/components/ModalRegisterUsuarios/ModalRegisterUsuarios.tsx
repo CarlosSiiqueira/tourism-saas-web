@@ -91,6 +91,10 @@ const ModalRegisterUsuarios = ({
     {
       id: 2,
       nome: "Vendedor"
+    },
+    {
+      id: 3,
+      nome: "Cliente"
     }
   ]
 

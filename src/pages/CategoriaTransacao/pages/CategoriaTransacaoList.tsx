@@ -55,7 +55,7 @@ const CategoriaTransacaoList = () => {
                 <SectionTop className="contentTop" gap="30px">
                     <Flex gap="10px" flexWrap="wrap">
                         <Text fontSize="2xl" fontWeight="bold">
-                            Categorias de Transção
+                            Categorias de Transação
                         </Text>
                     </Flex>
                 </SectionTop>

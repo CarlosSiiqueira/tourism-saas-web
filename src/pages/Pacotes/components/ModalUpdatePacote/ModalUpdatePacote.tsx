@@ -22,6 +22,7 @@ import { IDataPacote } from "../../../../models/pacote.model";
 import useProduct from "../../../../hooks/useProducts";
 import SelectForm from "../../../../components/SelectForm";
 import SelectImageOption from "../../../../components/SelectImageOption";
+import useImagem from "../../../../hooks/useImagem";
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -69,8 +70,10 @@ const ModalUpdatePacote = ({
   const { user } = useGlobal();
   const { updatePacote } = usePacotes();
   const { getAllProducts } = useProduct()
+  const { getAllImagem } = useImagem()
 
   const { data: dataProduto, isLoading: isLoadingProduto } = getAllProducts()
+  const { data: dataImage, isLoading: isLoadingImage } = getAllImagem();
 
   const {
     setValue,
@@ -83,8 +86,8 @@ const ModalUpdatePacote = ({
     defaultValues: {
       nome: data.nome,
       descricao: data.descricao || '',
-      foto: 'data.Foto.id',
-      fotoEsgotado: 'data.fotoEsgotado.id',
+      foto: data.urlImagem || '',
+      fotoEsgotado: data.urlImgEsgotado || '',
       origem: data.origem,
       tipoTransporte: data.tipoTransporte,
       opcionais: data.Produto.map((opcional) => { return opcional.id })
@@ -170,19 +173,19 @@ const ModalUpdatePacote = ({
           label="Foto"
           minW="135px"
           isSearchable
-          isLoading={isLoadingProduto}
+          isLoading={isLoadingImage}
           handleChange={(option) => {
             setValue("foto", option?.value);
           }}
-          options={dataProduto
+          options={dataImage
             ?.map((foto) => ({
               label: foto?.nome,
               value: foto?.id,
-              imageUrl: "https://www.petz.com.br/blog/wp-content/uploads/2022/06/animais-selvagens-3.jpg"
+              imageUrl: foto.url
             }))}
           defaultValue={{
-            value: 'data.Foto.id',
-            label: 'data.Foto.nome',
+            value: data.Imagem?.id,
+            label: data.Imagem?.nome,
           }}
           CustomOption={SelectImageOption}
           errors={errors.foto}
@@ -193,19 +196,19 @@ const ModalUpdatePacote = ({
           label="Foto Esgotado"
           minW="135px"
           isSearchable
-          isLoading={isLoadingProduto}
+          isLoading={isLoadingImage}
           handleChange={(option) => {
             setValue("fotoEsgotado", option?.value);
           }}
-          options={dataProduto
+          options={dataImage
             ?.map((foto) => ({
               label: foto?.nome,
               value: foto?.id,
-              imageUrl: "https://www.petz.com.br/blog/wp-content/uploads/2022/06/animais-selvagens-3.jpg"
+              imageUrl: foto.url
             }))}
           defaultValue={{
-            value: 'data.FotoEsgotado.id',
-            label: 'data.FotoEsgotado.nome',
+            value: data.ImagemBloqueado?.id,
+            label: data.ImagemBloqueado?.nome,
           }}
           CustomOption={SelectImageOption}
           errors={errors.fotoEsgotado}

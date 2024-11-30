@@ -223,6 +223,10 @@ const LinksMenu = ({ onClose: _ }: ILinksMenu) => {
       )}
 
       {!isFuncionario && !isVendedor && (
+        <Link to="/galeria">Galeria</Link>
+      )}
+
+      {!isFuncionario && !isVendedor && (
         <Link to="/configuracoes">Configurações</Link>
       )}
 

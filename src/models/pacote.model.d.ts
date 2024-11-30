@@ -24,6 +24,16 @@ export interface IDataPacote {
     id: string
     nome: string
   }[]
+  Imagem: {
+    id: string
+    nome: string
+    url: string
+  }
+  ImagemBloqueado: {
+    id: string
+    nome: string
+    url: string
+  }
 }
 
 export interface IPacoteResponse {

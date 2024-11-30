@@ -5,10 +5,8 @@ import { ProtectedRoute } from "./RoutesProtected";
 
 import { useGlobal } from "../contexts/UserContext";
 
-// Pages Auth
 import Home from "../pages/Home";
 
-// Pages No Auth
 import Login from "../pages/Login";
 import PageNotFound from "../pages/PageNotFound";
 import ResetToken from "../pages/ResetToken";
@@ -45,6 +43,7 @@ import Comissao from "../pages/Comissao";
 import RelatorioVenda from "../pages/RelatorioVendas";
 import RelatorioFornecedor from "../pages/RelatorioFornecedor";
 import ResetPasswords from "../pages/ResetPasswords";
+import Galeria from "../pages/Galeria";
 
 export const AppRoutes = () => {
   const location = useLocation();
@@ -92,6 +91,7 @@ export const AppRoutes = () => {
           <Route path="/vendas" element={<Vendas />} />
           <Route path="/excursoes/:idExcursao/opcional-embarque/:id" element={<OpcionaisEmbarque />} />
           <Route path="/comissoes" element={<Comissao />} />
+          <Route path="/galeria" element={<Galeria />} />
 
           <Route element={<ProtectedRoute isAuth={!isFuncionario} />}>
             <Route path="/relatorios/clientes" element={<RelatorioClientes />} />

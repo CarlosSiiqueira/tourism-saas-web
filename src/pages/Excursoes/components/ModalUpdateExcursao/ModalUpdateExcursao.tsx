@@ -23,6 +23,8 @@ import { useState } from "react";
 import { isDateLessThan150YearsAgo } from "../../../../utils/formattingDate";
 import { useGlobal } from "../../../../contexts/UserContext";
 import { IExcursao } from "../../../../models/excursao.model";
+import useLocalEmbarque from "../../../../hooks/useLocalEmbarque";
+import { IOption } from "../../../../components/SelectForm/types";
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -57,7 +59,17 @@ const handleSubmitRegisterSchema = z.object({
     }),
   observacoes: z
     .string()
-    .optional()
+    .optional(),
+  qtdMinVendas: z
+    .number()
+    .min(0, {
+      message: fieldRequired('Defina o valor minimo de vendas')
+    }),
+  localEmbarque: z
+    .array(z.string())
+    .min(1, {
+      message: fieldRequired('Defina os locais de embarque')
+    })
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -74,6 +86,7 @@ const ModalUpdateExcursao = ({
   const { user } = useGlobal();
   const { updateExcursao } = useExcursoes();
   const { getAllPacotes } = usePacotes();
+  const { getLocalEmbarque } = useLocalEmbarque()
 
   const [errorBornDate, setErrorDate] = useState({
     message: "",
@@ -96,11 +109,14 @@ const ModalUpdateExcursao = ({
       dataInicio: data.dataInicio.split('T')[0],
       dataFim: data.dataFim.split('T')[0],
       codigoPacote: data.codigoPacote,
+      localEmbarque: data.LocalEmbarque.map((local) => { return local.id }),
+      qtdMinVendas: data.qtdMinVendas
     }
   });
 
   const { mutate, isLoading } = updateExcursao(reset, handleClose);
   const { data: dataPacotes, isLoading: loadingpacotees } = getAllPacotes();
+  const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
     mutate({
@@ -274,6 +290,18 @@ const ModalUpdateExcursao = ({
           value={getValues('valor')}
         />
 
+        <FormInputNumber
+          height='40px'
+          label='Quantidade minima para venda'
+          {...register('qtdMinVendas')}
+          setValue={setValue}
+          flex='1.01'
+          name='qtdMinVendas'
+          isRequired
+          errors={errors.qtdMinVendas}
+          value={getValues('qtdMinVendas')}
+        />
+
         <FormInput
           id="observacoes"
           label="Observações"
@@ -289,6 +317,37 @@ const ModalUpdateExcursao = ({
             setValue("observacoes", event.target.value || '');
           }}
         />
+
+        <FieldWrap>
+          <span>Locais De Embarque <Asterisk /></span>
+          <ReactSelect
+            {...register('localEmbarque')}
+            name="localEmbarqueId"
+            className="select-fields"
+            classNamePrefix="select"
+            closeMenuOnSelect={true}
+            isSearchable={true}
+            placeholder="Selecionar"
+            noOptionsMessage={() => "Nenhum local encontrado"}
+            isLoading={isLoadingLocalEmbarque}
+            required
+            isMulti
+            onChange={(item) => {
+              setValue('localEmbarque', item?.map((item: IOption) => item?.value.toString()) || [])
+            }}
+            options={localEmbarqueData.map((local) => {
+              return { value: local.id, label: `${local.horaEmbarque} - ${local.nome}` }
+            })}
+            defaultValue={
+              data.LocalEmbarque.map((local) => {
+                return {
+                  value: local.id, label: `${local.horaEmbarque} ${local.nome}`
+                }
+              })
+            }
+          />
+
+        </FieldWrap>
 
         <Flex justifyContent="flex-end" gap="15px">
           <Button

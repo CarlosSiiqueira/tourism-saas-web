@@ -20,6 +20,7 @@ import FormInput from "../../../../components/FormInput";
 import useProduct from "../../../../hooks/useProducts";
 import SelectForm from "../../../../components/SelectForm";
 import SelectImageOption from "../../../../components/SelectImageOption";
+import useImagem from "../../../../hooks/useImagem";
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -32,10 +33,10 @@ const handleSubmitRegisterSchema = z.object({
     .min(1, {
       message: fieldRequired("Descrição")
     }),
-  foto: z
+  urlImagem: z
     .string()
     .optional(),
-  fotoEsgotado: z
+  urlImgEsgotado: z
     .string()
     .optional(),
   origem: z
@@ -65,9 +66,10 @@ const ModalRegisterPacote = ({
   const { user } = useGlobal();
   const { createPacotes } = usePacotes();
   const { getAllProducts } = useProduct()
+  const { getAllImagem } = useImagem()
 
   const { data: dataProduto, isLoading: isLoadingProduto } = getAllProducts()
-
+  const { data: dataImage, isLoading: isLoadingImage } = getAllImagem();
 
   const {
     setValue,
@@ -149,41 +151,41 @@ const ModalRegisterPacote = ({
         />
 
         <SelectForm
-          name="foto"
+          name="urlImagem"
           label="Foto"
           minW="135px"
           isSearchable
-          isLoading={isLoadingProduto}
+          isLoading={isLoadingImage}
           handleChange={(option) => {
-              setValue("foto", option?.value);
+            setValue("urlImagem", option?.value);
           }}
-          options={dataProduto
-              ?.map((foto) => ({
-                  label: foto?.nome,
-                  value: foto?.id,
-                  imageUrl: "https://www.petz.com.br/blog/wp-content/uploads/2022/06/animais-selvagens-3.jpg"
-              }))}
+          options={dataImage
+            ?.map((foto) => ({
+              label: foto?.nome,
+              value: foto?.id,
+              imageUrl: `${foto.url}`
+            }))}
           CustomOption={SelectImageOption}
-          errors={errors.foto}
+          errors={errors.urlImagem}
         />
 
         <SelectForm
-          name="fotoEsgotado"
+          name="urlImgEsgotado"
           label="Foto Esgotado"
           minW="135px"
           isSearchable
-          isLoading={isLoadingProduto}
+          isLoading={isLoadingImage}
           handleChange={(option) => {
-              setValue("fotoEsgotado", option?.value);
+            setValue("urlImgEsgotado", option?.value);
           }}
-          options={dataProduto
-              ?.map((foto) => ({
-                  label: foto?.nome,
-                  value: foto?.id,
-                  imageUrl: "https://www.petz.com.br/blog/wp-content/uploads/2022/06/animais-selvagens-3.jpg"
-              }))}
+          options={dataImage
+            ?.map((foto) => ({
+              label: foto?.nome,
+              value: foto?.id,
+              imageUrl: `${foto.url}`
+            }))}
           CustomOption={SelectImageOption}
-          errors={errors.fotoEsgotado}
+          errors={errors.urlImgEsgotado}
         />
 
         <FieldWrap>

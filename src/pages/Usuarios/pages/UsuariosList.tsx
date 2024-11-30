@@ -149,44 +149,59 @@ const UsuariosList = () => {
                                         </THead>
 
                                         <TBody>
-                                            {data.map((item) => (
-                                                <TR key={item.id}>
-                                                    <TD>
-                                                        {item.nome}
-                                                    </TD>
-                                                    <TD>
-                                                        {item.ativo ? 'Ativo' : 'Inativo'}
-                                                    </TD>
-                                                    <TD>
-                                                        {item.tipo == 1 ? 'Admin' : 'Vendedor'}
-                                                    </TD>
-                                                    <TD gap={3}>
-                                                        <MdEdit
-                                                            size={20}
-                                                            cursor="pointer"
-                                                            onClick={() => {
-                                                                setUsuarioData(item)
-                                                                setModalUpdateUsuario(true)
-                                                            }}
-                                                        />
+                                            {data.map((item) => {
+                                                let tipo;
+                                                switch (item.tipo) {
+                                                    case 1:
+                                                        tipo = 'Admin'
+                                                        break;
+                                                    case 2:
+                                                        tipo = 'Vendedor'
+                                                        break;
+                                                    case 3:
+                                                        tipo = 'Cliente'
+                                                        break;
+                                                }
+                                                return (
 
-                                                        <ButtonIcon tooltip="Excluir Usuário">
-                                                            <Button
-                                                                variant="unstyled"
-                                                                display="flex"
-                                                                alignItems="center"
-                                                                colorScheme="red"
+                                                    <TR key={item.id}>
+                                                        <TD>
+                                                            {item.nome}
+                                                        </TD>
+                                                        <TD>
+                                                            {item.ativo ? 'Ativo' : 'Inativo'}
+                                                        </TD>
+                                                        <TD>
+                                                            {tipo}
+                                                        </TD>
+                                                        <TD gap={3}>
+                                                            <MdEdit
+                                                                size={20}
+                                                                cursor="pointer"
                                                                 onClick={() => {
-                                                                    setModalRemoveUsuario(true)
-                                                                    setDeleteUsuarioId(item.id)
+                                                                    setUsuarioData(item)
+                                                                    setModalUpdateUsuario(true)
                                                                 }}
-                                                            >
-                                                                <FiTrash />
-                                                            </Button>
-                                                        </ButtonIcon>
-                                                    </TD>
-                                                </TR>
-                                            ))}
+                                                            />
+
+                                                            <ButtonIcon tooltip="Excluir Usuário">
+                                                                <Button
+                                                                    variant="unstyled"
+                                                                    display="flex"
+                                                                    alignItems="center"
+                                                                    colorScheme="red"
+                                                                    onClick={() => {
+                                                                        setModalRemoveUsuario(true)
+                                                                        setDeleteUsuarioId(item.id)
+                                                                    }}
+                                                                >
+                                                                    <FiTrash />
+                                                                </Button>
+                                                            </ButtonIcon>
+                                                        </TD>
+                                                    </TR>
+                                                )
+                                            })}
                                         </TBody>
                                     </Table>
                                 </TableContainer>
