@@ -34,6 +34,11 @@ export interface IDataPacote {
     nome: string
     url: string
   }
+  Galeria: {
+    id: string
+    nome: string
+    url: string
+  }[]
 }
 
 export interface IPacoteResponse {

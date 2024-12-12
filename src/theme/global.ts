@@ -17,6 +17,10 @@ const styles = {
       },
     },
 
+    '.rich-text *': {
+      fontSize: 'inherit',
+    },
+
     "::-webkit-scrollbar-track": {
       backgroundColor: "#f4f4f4",
     },

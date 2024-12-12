@@ -21,6 +21,7 @@ import useProduct from "../../../../hooks/useProducts";
 import SelectForm from "../../../../components/SelectForm";
 import SelectImageOption from "../../../../components/SelectImageOption";
 import useImagem from "../../../../hooks/useImagem";
+import RichText from "../../../../components/RichText";
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -50,6 +51,9 @@ const handleSubmitRegisterSchema = z.object({
       message: fieldRequired("tipo de transporte"),
     }),
   opcionais: z
+    .array(z.string())
+    .optional(),
+  galeria: z
     .array(z.string())
     .optional()
 });
@@ -136,19 +140,14 @@ const ModalRegisterPacote = ({
           {errors.nome && <p className="error">{errors.nome.message}</p>}
         </FieldWrap>
 
-        <FormInput
-          id="descricao"
-          label="Descrição"
-          isRequired
-          type="text"
-          {...register("descricao")}
-          inputArea={true}
-          errors={errors.descricao}
-          name="descricao"
-          onChangeTextarea={(event) => {
-            setValue("descricao", event.target.value || '');
-          }}
-        />
+        <FieldWrap>
+          <span>Descrição <Asterisk /></span>
+
+          <RichText
+            setValue={setValue}
+            name="descricao"
+          />
+        </FieldWrap>
 
         <SelectForm
           name="urlImagem"
@@ -186,6 +185,26 @@ const ModalRegisterPacote = ({
             }))}
           CustomOption={SelectImageOption}
           errors={errors.urlImgEsgotado}
+        />
+
+        <SelectForm
+          name="galeria"
+          label="Galeria do Destino"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingImage}
+          isMulti
+          handleChange={(option) => {
+            setValue("galeria", option.map((opt: { value: string, label: string, imageUrl: string }) => opt.value));
+          }}
+          options={dataImage
+            ?.map((foto) => ({
+              label: foto?.nome,
+              value: foto?.id,
+              imageUrl: `${foto.url}`
+            }))}
+          CustomOption={SelectImageOption}
+          errors={errors.galeria}
         />
 
         <FieldWrap>

@@ -23,6 +23,7 @@ import useProduct from "../../../../hooks/useProducts";
 import SelectForm from "../../../../components/SelectForm";
 import SelectImageOption from "../../../../components/SelectImageOption";
 import useImagem from "../../../../hooks/useImagem";
+import RichText from "../../../../components/RichText";
 
 const handleSubmitRegisterSchema = z.object({
   nome: z
@@ -52,6 +53,9 @@ const handleSubmitRegisterSchema = z.object({
       message: fieldRequired("tipo de transporte"),
     }),
   opcionais: z
+    .array(z.string())
+    .optional(),
+  galeria: z
     .array(z.string())
     .optional()
 });
@@ -90,7 +94,8 @@ const ModalUpdatePacote = ({
       fotoEsgotado: data.urlImgEsgotado || '',
       origem: data.origem,
       tipoTransporte: data.tipoTransporte,
-      opcionais: data.Produto.map((opcional) => { return opcional.id })
+      opcionais: data.Produto.map((opcional) => { return opcional.id }),
+      galeria: data.Galeria.map((img) => { return img.id })
     }
   });
 
@@ -151,22 +156,16 @@ const ModalUpdatePacote = ({
           {errors.nome && <p className="error">{errors.nome.message}</p>}
         </FieldWrap>
 
-        <FormInput
-          id="descricao"
-          label="Descrição"
-          isRequired
-          type="text"
-          {...register?.("descricao")}
-          inputArea={true}
-          errors={errors.descricao}
-          name="descricao"
-          defaultValue={
-            data.descricao || ''
-          }
-          onChangeTextarea={(event) => {
-            setValue("descricao", event.target.value || '');
-          }}
-        />
+
+        <FieldWrap>
+          <span>Descrição <Asterisk /></span>
+
+          <RichText
+            setValue={setValue}
+            name="descricao"
+            value={data.descricao || ''}
+          />
+        </FieldWrap>
 
         <SelectForm
           name="foto"
@@ -214,12 +213,40 @@ const ModalUpdatePacote = ({
           errors={errors.fotoEsgotado}
         />
 
+        <SelectForm
+          name="galeria"
+          label="Galeria do Destino"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingImage}
+          isMulti
+          handleChange={(option) => {
+            setValue("galeria", option.map((opt: { value: string, label: string, imageUrl: string }) => opt.value));
+          }}
+          options={dataImage
+            ?.map((foto) => ({
+              label: foto?.nome,
+              value: foto?.id,
+              imageUrl: `${foto.url}`
+            }))}
+          CustomOption={SelectImageOption}
+          errors={errors.galeria}
+          defaultValue={
+            data.Galeria.map((images) => {
+              return {
+                value: images.id,
+                label: images.nome,
+                imageUrl: `${images.url}`
+              }
+            })
+          }
+        />
+
         <FieldWrap>
           <span>Origem</span>
 
           <Box display="flex" gap="10px">
             <ReactSelect
-              // isLoading={loadingOrigemes}
               className="select-fields large"
               classNamePrefix="select"
               closeMenuOnSelect={true}
