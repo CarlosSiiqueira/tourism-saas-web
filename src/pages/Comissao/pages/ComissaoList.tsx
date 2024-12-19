@@ -88,6 +88,7 @@ const ComissaoList = () => {
                                             <TD>Valor</TD>
                                             <TD>Periodo</TD>
                                             <TD>Data Registro</TD>
+                                            <TD>Data Pagamento</TD>
                                         </THead>
 
                                         <TBody>
@@ -104,6 +105,9 @@ const ComissaoList = () => {
                                                     </TD>
                                                     <TD>
                                                         {formattingDate(item.data)}
+                                                    </TD>
+                                                    <TD>
+                                                        {item.pagoEm ? formattingDate(item.pagoEm) : 'Em Aberto'}
                                                     </TD>
                                                 </TR>
                                             ))}

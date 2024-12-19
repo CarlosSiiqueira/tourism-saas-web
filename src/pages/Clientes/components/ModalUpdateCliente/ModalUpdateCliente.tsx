@@ -290,6 +290,7 @@ const ModalUpdateCliente = ({
             maxW="240px"
             setValue={setValue}
             onInput={phoneMask}
+            maxLengthInpt={15}
           />
 
           <FormInput

@@ -13,6 +13,7 @@ export interface IComissao {
   periodo: string
   valor: number
   data: string
+  pagoEm: string
   idTransacao: string
   usuariosId: string
   Financeiro: ITransacao[]

@@ -2,6 +2,7 @@ export interface ICreditoCliente {
   id: string,
   valor: number
   dataCadastro: string
+  ativo: boolean
   Reserva: {
     reserva: number
     Excursao: {

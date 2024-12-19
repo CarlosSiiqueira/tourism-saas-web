@@ -276,3 +276,20 @@ export interface IDeleteTransacaoResponse {
   isLoading: boolean;
   mutate: UseMutateFunction<void, unknown, string, unknown>;
 }
+
+export interface ICreateLinkArgs {
+  cliente: string,
+  idExcursao: string
+  desconto?: number,
+  quantidade?: number
+  subtotal?: number
+  total?: number,
+  valorDesconto?: number
+  valorOpcionais?: number
+  paymentMethods: string[]
+}
+
+export interface ICreateLinkResponse {
+  isLoading: boolean;
+  mutate: UseMutateFunction<void, unknown, ICreateLinkArgs, unknown>;
+}

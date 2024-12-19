@@ -16,7 +16,7 @@ import { ISelect } from "../../../models/generics.model";
 import ModalRegisterReservas from "../components/ModalRegisterReservas";
 import ModalUpdateReservas from "../components/ModalUpdateReservas";
 import AlertNoDataFound from "../../../components/AlertNoDataFound";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdInsertLink } from "react-icons/md";
 import ButtonIcon from "../../../components/ButtonIcon";
 import AlertModal from "../../../components/AlertModal";
 import useReservas from "../../../hooks/useReservas";
@@ -28,12 +28,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { GrSystem } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import ModalRegisterCredito from "../components/ModalRegisterCredito";
+import ModalRegisterLink from "../components/ModalRegisterLink"
 
 const ReservasList = () => {
   const { getReserva, deleteReserva, sendTicketMail } = useReservas();
   const [statusSelected, setStatusSelected] = useState<ISelect | null>();
   const [resetFilter, setResetFilter] = useState(false);
   const [modalRegisterReserva, setModalRegisterReserva] = useState(false);
+  const [modalGenerateLink, setModalGenerateLink] = useState(false);
   const [modalUpdateReserva, setModalUpdateReserva] = useState(false);
   const [modalRemoveReserva, setModalRemoveReserva] = useState(false);
   const [modalRegisterCredito, setModalRegisterCredito] = useState(false);
@@ -74,14 +76,24 @@ const ReservasList = () => {
         </SectionTop>
 
         <SectionTop className="contentTop">
-          <Button
-            leftIcon={<IoIosAdd />}
-            onClick={() => {
-              setModalRegisterReserva(true);
-            }}
-          >
-            Cadastrar Reserva
-          </Button>
+          <Flex gap="10px" flexWrap="wrap">
+            <Button
+              leftIcon={<MdInsertLink />}
+              onClick={() => {
+                setModalGenerateLink(true);
+              }}
+            >
+              Gerar Link
+            </Button>
+            <Button
+              leftIcon={<IoIosAdd />}
+              onClick={() => {
+                setModalRegisterReserva(true);
+              }}
+            >
+              Cadastrar Reserva
+            </Button>
+          </Flex>
         </SectionTop>
       </Flex>
       <Content className="contentMain">
@@ -331,6 +343,17 @@ const ReservasList = () => {
           size="md"
         ></AlertModal>
       )}
+
+      <SimpleModal
+        title="Link Pagarme"
+        size="xl"
+        isOpen={modalGenerateLink}
+        handleModal={setModalGenerateLink}
+      >
+        <ModalRegisterLink
+          handleClose={() => setModalGenerateLink(false)}
+        />
+      </SimpleModal>
     </>
   );
 };

@@ -17,7 +17,9 @@ import {
   ITransacaoVendaArgs,
   ITransacaoVendaResponse,
   ITransacaoFornecedorResponse,
-  ITransacaoFornecedorArgs
+  ITransacaoFornecedorArgs,
+  ICreateLinkArgs,
+  ICreateLinkResponse
 } from "../models/transacao.model";
 import { Warning } from "../errors";
 import { keys, queryClient } from "../services/query";
@@ -46,6 +48,7 @@ const getTransacoes = (
 
       dataInicio = dataInicio ? dataInicio : null
       dataFim = dataFim ? dataFim : null
+      let valor = parseFloat(nome || '') > 0 ? nome?.replace(',', '.') : null
 
       try {
         const { data } = await apiPrados.get(path, {
@@ -53,6 +56,7 @@ const getTransacoes = (
             page,
             size,
             nome,
+            valor,
             dataInicio,
             dataFim,
             codigoContaBancaria,
@@ -541,6 +545,39 @@ const getTransacoesFornecedores = (
 }
 
 
+const createLink = (
+  handleClose: () => void,
+  callback: (data: any) => void
+): ICreateLinkResponse => {
+
+  const { isLoading, mutate } = useMutation(
+    async (data: ICreateLinkArgs) => {
+      const urlPath = 'financeiro/generatePaymentLink'
+
+      try {
+        await apiPrados.post(urlPath, data).then((response) => {
+          callback(response.data)
+
+          handleClose()
+
+          useToastStandalone({
+            title: "Link gerado!",
+            status: "success",
+          });
+        })
+      } catch (error: any) {
+        throw new Warning(error.response.data.message, error?.response?.status);
+      }
+    }
+  )
+
+  return {
+    isLoading,
+    mutate
+  }
+}
+
+
 export default function useTransacao() {
   return {
     getTransacoes,
@@ -556,6 +593,7 @@ export default function useTransacao() {
     getTransacoesExcursoes,
     getTransacoesPacote,
     getTransacoesVendas,
-    getTransacoesFornecedores
+    getTransacoesFornecedores,
+    createLink
   }
 }

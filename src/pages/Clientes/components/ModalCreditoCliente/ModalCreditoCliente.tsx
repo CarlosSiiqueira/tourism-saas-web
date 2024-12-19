@@ -37,6 +37,8 @@ const ModalCreditoCliente = ({
     page: currentPage
   }, id);
 
+  const total = data.reduce((previousValue, currentValue) => previousValue + currentValue.valor, 0)
+
   return (
     <>
       <Content className="contentMain" width='100%'>
@@ -58,9 +60,10 @@ const ModalCreditoCliente = ({
                       <TD>Nome</TD>
                       <TD>Valor</TD>
                       <TD>Data do Crédito</TD>
+                      <TD>Vencimento</TD>
                       <TD>Reserva</TD>
                       <TD>Excursão</TD>
-                      <TD></TD>
+                      <TD>Utilizado/Disponível</TD>
                     </THead>
 
                     <TBody>
@@ -76,45 +79,24 @@ const ModalCreditoCliente = ({
                             {formattingDate(item.dataCadastro)}
                           </TD>
                           <TD>
+                            {formattingDate(new Date(new Date(item.dataCadastro).setFullYear(new Date(item.dataCadastro).getFullYear() + 1)).toDateString())}
+                          </TD>
+                          <TD>
                             {item.Reserva.reserva}
                           </TD>
                           <TD>
                             {`${formattingDate(item.Reserva.Excursao.dataInicio)} à ${formattingDate(item.Reserva.Excursao.dataFim)} - ${item.Reserva.Excursao?.nome}`}
                           </TD>
-                          <TD gap={3}>
-
-                            <ButtonIcon tooltip="Editar">
-                              <MdEdit
-                                size={20}
-                                cursor="pointer"
-                                onClick={() => {
-                                  // setClienteData(item)
-                                  // setModalUpdateCliente(true)
-                                }}
-                              />
-                            </ButtonIcon>
-
-                            <ButtonIcon tooltip="Excluir Cliente">
-                              <Button
-                                variant="unstyled"
-                                display="flex"
-                                alignItems="center"
-                                colorScheme="red"
-                                onClick={() => {
-                                  // setModalRemoveCliente(true)
-                                  // setDeleteClienteId(item.id)
-                                }}
-                              >
-                                <FiTrash />
-                              </Button>
-                            </ButtonIcon>
-
+                          <TD>
+                            {item.ativo ? 'Disponível' : 'Utilizado'}
                           </TD>
                         </TR>
                       ))}
                     </TBody>
+                    <span><b>Total:</b> {currencyBRLFormat(total)}</span>
                   </Table>
                 </TableContainer>
+
               </>
             )}
 
