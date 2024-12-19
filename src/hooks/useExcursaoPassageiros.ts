@@ -17,7 +17,8 @@ const getAllPassageiros = ({ page, size, localEmbarque }: IExcursaoPassageiroArg
   const { data, isLoading } = useQuery(
     [      
       page,
-      localEmbarque
+      localEmbarque,
+      idExcursao
     ],
     async () => {
       const path = `excursao-passageiros/index/${idExcursao}`;
@@ -30,6 +31,8 @@ const getAllPassageiros = ({ page, size, localEmbarque }: IExcursaoPassageiroArg
             localEmbarque
           },
         });
+
+        queryClient.removeQueries([keys.excursao])
 
         return data
       } catch (error: any) {

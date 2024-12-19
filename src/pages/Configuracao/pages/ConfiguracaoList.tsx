@@ -17,6 +17,7 @@ import { fieldRequired } from "../../../utils/messagesError";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useImagem from "../../../hooks/useImagem";
 import SelectImageOption from "../../../components/SelectImageOption";
+import useFormaPagamento from "../../../hooks/useFormaPagamento";
 
 const handleSubmitRegisterSchema = z.object({
   defaultUser: z
@@ -28,6 +29,11 @@ const handleSubmitRegisterSchema = z.object({
     .string()
     .min(1, {
       message: fieldRequired("Categoria")
+    }),
+  defaultFormaPagamento: z
+    .string()
+    .min(1, {
+      message: fieldRequired("Forma de Pagamento")
     }),
   defaultSlideImages: z
     .array(z.object({ id: z.string(), label: z.string() }))
@@ -44,6 +50,7 @@ const ConfiguracaoList = () => {
   const { getAllUsuario } = useUsuario()
   const { getAllCategoriaTransacao } = useCategoriaTransacao()
   const { getAllImagem } = useImagem()
+  const { getAllFormaPagamentos } = useFormaPagamento()
   const { user } = useGlobal();
   const {
     setValue,
@@ -59,21 +66,25 @@ const ConfiguracaoList = () => {
   const { mutate: mutateToCreateConfig, isLoading: isLoadingCreate } = createConfiguracao()
   const { mutate: mutateToUpdateConfig, isLoading: isLoadingUpdate } = updateConfiguracao()
   const { data: dataImage, isLoading: isLoadingImage } = getAllImagem();
+  const { data: dataFormaPagamentos, isLoading: loadingFormaPagamentos } = getAllFormaPagamentos();
+
 
   let configUser: IConfiguracao | undefined
   let configCategory: IConfiguracao | undefined
   let configSlideImages: IConfiguracao | undefined
-
+  let configFormaPagamento: IConfiguracao | undefined
 
   if (data.length) {
     configUser = data.find((config => config.tipo == 'default-user'))
     configCategory = data.find((config => config.tipo == 'default-category'))
     configSlideImages = data.find((config => config.tipo == 'default-slide-images'))
+    configFormaPagamento = data.find((config => config.tipo == 'default-forma-pagamento'))
   }
 
   let defaultImages = configSlideImages?.configuracao ? JSON.parse(configSlideImages.configuracao) : []
   let defaultCategory = configCategory?.configuracao ? JSON.parse(configCategory.configuracao) : {}
   let defaultUser = configUser?.configuracao ? JSON.parse(configUser.configuracao) : {}
+  let defaultFormaPagamento = configFormaPagamento?.configuracao ? JSON.parse(configFormaPagamento.configuracao) : {}
 
   const setConfigUser = async (usuario: { id: string, nome: string }) => {
 
@@ -130,6 +141,25 @@ const ConfiguracaoList = () => {
     mutateToCreateConfig({
       tipo: 'default-slide-images',
       configuracao: JSON.stringify(images),
+      idUsuario: user?.id
+    })
+  }
+
+  const setConfigFormaPagamento = async (usuario: { id: string, nome: string }) => {
+
+    if (configFormaPagamento) {
+      mutateToUpdateConfig({
+        id: configFormaPagamento.id,
+        tipo: 'default-forma-pagamento',
+        configuracao: JSON.stringify(usuario),
+        idUsuario: user?.id
+      })
+
+      return
+    }
+    mutateToCreateConfig({
+      tipo: 'default-forma-pagamento',
+      configuracao: JSON.stringify(usuario),
       idUsuario: user?.id
     })
   }
@@ -194,6 +224,27 @@ const ConfiguracaoList = () => {
                 defaultValue={{
                   value: defaultCategory?.id,
                   label: defaultCategory?.nome
+                }}
+              />
+
+              <br />
+
+              <SelectForm
+                name="defaultFormaPagamento"
+                label="Forma Pagamento Padrão"
+                maxW='100px'
+                isRequired
+                isLoading={loadingFormaPagamentos}
+                handleChange={(option) => {
+                  setValue("defaultFormaPagamento", option?.value);
+                  setConfigFormaPagamento({ id: option?.value, nome: option?.label })
+                }}
+                options={dataFormaPagamentos.map((pagamento) => {
+                  return { value: pagamento.id, label: `${pagamento.nome}` }
+                })}
+                defaultValue={{
+                  value: defaultFormaPagamento?.id,
+                  label: defaultFormaPagamento?.nome
                 }}
               />
 
