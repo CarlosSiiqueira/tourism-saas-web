@@ -210,7 +210,7 @@ const ModalUpdateUsuarios = ({
             errors={errors.tipo}
             defaultValue={{
               value: data.tipo,
-              label: data.tipo == 1 ? 'Admin' : 'Vendedor'
+              label: dataTipo.find((tipo) => tipo.id === data.tipo)?.nome
             }}
           />
         </Flex>
