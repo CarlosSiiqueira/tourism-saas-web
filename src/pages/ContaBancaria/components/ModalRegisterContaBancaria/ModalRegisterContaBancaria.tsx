@@ -112,7 +112,7 @@ const ModalRegisterContabancaria = ({
             height="40px"
             label="Saldo"
             minWidth="200px"
-            {...register("saldo")}
+            {...register("saldo", { valueAsNumber: true })}
             setValue={setValue}
             isMoneyValue
             flex="1.01"
@@ -121,6 +121,7 @@ const ModalRegisterContabancaria = ({
             isRequired
             dontAllowNegative
             errors={errors.saldo}
+            defaultValue={0}
           />
 
           <SelectForm

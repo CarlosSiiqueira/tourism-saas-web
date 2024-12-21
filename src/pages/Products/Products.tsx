@@ -20,7 +20,7 @@ const Products = () => {
   });
 
   useEffect(() => {
-    document.title = `${theme.content.project} - Produtos`;
+    document.title = `${theme.content.project} - Produtos & Serviços`;
 
     const menuPath = parseInt(
       location.search?.split("menu=")[1]?.split("?")[0],

@@ -186,7 +186,8 @@ const ModalRegisterFormaPagamento = ({
 
           <FormInputNumber
             label="Taxa"
-            {...register("taxa")}
+            {...register("taxa", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa"
@@ -202,7 +203,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 2x"
-            {...register("taxa2x")}
+            {...register("taxa2x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa2x"
@@ -217,7 +219,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 3x"
-            {...register("taxa3x")}
+            {...register("taxa3x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa3x"
@@ -240,7 +243,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 4x"
-            {...register("taxa4x")}
+            {...register("taxa4x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa4x"
@@ -255,7 +259,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 5x"
-            {...register("taxa5x")}
+            {...register("taxa5x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa5x"
@@ -270,7 +275,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 6x"
-            {...register("taxa6x")}
+            {...register("taxa6x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa6x"
@@ -294,7 +300,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 7x"
-            {...register("taxa7x")}
+            {...register("taxa7x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa7x"
@@ -309,7 +316,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 8x"
-            {...register("taxa8x")}
+            {...register("taxa8x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa8x"
@@ -324,7 +332,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 9x"
-            {...register("taxa9x")}
+            {...register("taxa9x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa9x"
@@ -348,7 +357,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 10x"
-            {...register("taxa10x")}
+            {...register("taxa10x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa10x"
@@ -363,7 +373,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 11x"
-            {...register("taxa11x")}
+            {...register("taxa11x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa11x"
@@ -378,7 +389,8 @@ const ModalRegisterFormaPagamento = ({
           <FormInputNumber
             isRequired={false}
             label="Taxa 12x"
-            {...register("taxa12x")}
+            {...register("taxa12x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa12x"

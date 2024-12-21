@@ -213,7 +213,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa')}
             label="Taxa"
-            {...register("taxa")}
+            {...register("taxa", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa"
@@ -229,7 +230,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa2x')}
             label="Taxa 2x"
-            {...register("taxa2x")}
+            {...register("taxa2x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa2x"
@@ -244,7 +246,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa3x')}
             label="Taxa 3x"
-            {...register("taxa3x")}
+            {...register("taxa3x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa3x"
@@ -267,7 +270,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa4x')}
             label="Taxa 4x"
-            {...register("taxa4x")}
+            {...register("taxa4x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa4x"
@@ -282,7 +286,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa5x')}
             label="Taxa 5x"
-            {...register("taxa5x")}
+            {...register("taxa5x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa5x"
@@ -297,7 +302,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa6x')}
             label="Taxa 6x"
-            {...register("taxa6x")}
+            {...register("taxa6x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa6x"
@@ -321,7 +327,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa7x')}
             label="Taxa 7x"
-            {...register("taxa7x")}
+            {...register("taxa7x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa7x"
@@ -336,7 +343,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa8x')}
             label="Taxa 8x"
-            {...register("taxa8x")}
+            {...register("taxa8x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa8x"
@@ -351,7 +359,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa9x')}
             label="Taxa 9x"
-            {...register("taxa9x")}
+            {...register("taxa9x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa9x"
@@ -375,7 +384,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa10x')}
             label="Taxa 10x"
-            {...register("taxa10x")}
+            {...register("taxa10x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa10x"
@@ -390,7 +400,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa11x')}
             label="Taxa 11x"
-            {...register("taxa11x")}
+            {...register("taxa11x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa11x"
@@ -405,7 +416,8 @@ const ModalUpdateContaBancaria = ({
           <FormInputNumber
             value={getValues('taxa12x')}
             label="Taxa 12x"
-            {...register("taxa12x")}
+            {...register("taxa12x", { valueAsNumber: true })}
+            defaultValue={0}
             setValue={setValue}
             flex="1.01"
             name="taxa12x"

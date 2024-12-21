@@ -327,7 +327,7 @@ const ModalRegisterReservas = ({
             label="Crianças de colo"
             minWidth="100px"
             // maxWidth="50%"
-            {...register("criancasColo")}
+            {...register("criancasColo", { valueAsNumber: true })}
             setValue={setValue}
             placeholder="Quantidade"
             flex="1.01"
@@ -335,6 +335,7 @@ const ModalRegisterReservas = ({
             dontAllowNegative={true}
             name="criancasColo"
             errors={errors.criancasColo}
+            defaultValue={0}
           />
         </Flex>
 

@@ -55,7 +55,7 @@ const ProductsList = () => {
         <SectionTop className="contentTop" gap="30px">
           <Flex gap="10px" flexWrap="wrap">
             <Text fontSize="2xl" fontWeight="bold">
-              Produtos
+              Produtos & Serviços
             </Text>
           </Flex>
         </SectionTop>
@@ -67,7 +67,7 @@ const ProductsList = () => {
               setModalRecordProduct(true);
             }}
           >
-            Cadastrar produto
+            Cadastrar Produto/Serviço
           </Button>
         </SectionTop>
       </Flex>
@@ -75,7 +75,7 @@ const ProductsList = () => {
       <Content className="contentMain">
         <Flex width="100%" gap="15px" alignItems="flex-end" flexWrap="wrap">
           <div className="searchWrap">
-            <span>Buscar produto</span>
+            <span>Buscar produto/serviço</span>
             <FieldSearch
               placeholder="Nome"
               handleSearch={(event) => {
@@ -141,7 +141,7 @@ const ProductsList = () => {
                               }}
                             />
 
-                            <ButtonIcon tooltip="Excluir Produto">
+                            <ButtonIcon tooltip="Excluir Produto/Serviço">
                               <Button
                                 variant="unstyled"
                                 display="flex"

@@ -122,7 +122,7 @@ const ModalUpdateContaBancaria = ({
             height="40px"
             label="Saldo"
             minWidth="200px"
-            {...register("saldo")}
+            {...register("saldo", { valueAsNumber: true })}
             setValue={setValue}
             value={getValues("saldo")}
             isMoneyValue
