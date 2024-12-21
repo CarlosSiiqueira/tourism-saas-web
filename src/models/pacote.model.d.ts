@@ -39,6 +39,10 @@ export interface IDataPacote {
     nome: string
     url: string
   }[]
+  Inclusos: {
+    id: string
+    nome: string
+  }[]
 }
 
 export interface IPacoteResponse {

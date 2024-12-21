@@ -15,9 +15,7 @@ import {
 
 import { FieldWrap } from "./styled";
 import ReactSelect from "react-select";
-// import useOrigem from "../../../../hooks/useOrigem";
 import { useGlobal } from "../../../../contexts/UserContext";
-import FormInput from "../../../../components/FormInput";
 import { IDataPacote } from "../../../../models/pacote.model";
 import useProduct from "../../../../hooks/useProducts";
 import SelectForm from "../../../../components/SelectForm";
@@ -57,6 +55,9 @@ const handleSubmitRegisterSchema = z.object({
     .optional(),
   galeria: z
     .array(z.string())
+    .optional(),
+  inclusos: z
+    .array(z.string())
     .optional()
 });
 
@@ -95,7 +96,8 @@ const ModalUpdatePacote = ({
       origem: data.origem,
       tipoTransporte: data.tipoTransporte,
       opcionais: data.Produto.map((opcional) => { return opcional.id }),
-      galeria: data.Galeria.map((img) => { return img.id })
+      galeria: data.Galeria.map((img) => { return img.id }),
+      inclusos: data.Inclusos.map((itemIncluso) => { return itemIncluso.id })
     }
   });
 
@@ -303,39 +305,55 @@ const ModalUpdatePacote = ({
           </Box>
         </FieldWrap>
 
-        <FieldWrap>
-          <span>Opcionais</span>
-
-          <Box display="flex" gap="10px">
-            <ReactSelect
-              className="select-fields large"
-              classNamePrefix="select"
-              closeMenuOnSelect={true}
-              {...register?.("opcionais")}
-              isSearchable={true}
-              placeholder="Selecione"
-              noOptionsMessage={() => "Não há opcional cadastrado"}
-              isLoading={isLoadingProduto}
-              isMulti
-              onChange={(option) => {
-                setValue("opcionais", option.map((opt) => opt.value));
-              }}
-              options={dataProduto
-                ?.map((produto) => ({
-                  label: `${produto?.nome}`,
-                  value: produto?.id,
-                }))}
-              defaultValue={
-                data.Produto.map((opcional) => {
-                  return {
-                    value: opcional.id,
-                    label: opcional.nome
-                  }
-                })
+        <SelectForm
+          name="opcionais"
+          label="Opcionais"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingProduto}
+          isMulti
+          handleChange={(option) => {
+            setValue("opcionais", option.map((opt: { value: string, label: string }) => opt.value));
+          }}
+          options={dataProduto
+            ?.map((produto) => ({
+              label: `${produto?.nome}`,
+              value: produto?.id,
+            }))}
+          defaultValue={
+            data.Produto.map((opcional) => {
+              return {
+                value: opcional.id,
+                label: opcional.nome
               }
-            />
-          </Box>
-        </FieldWrap>
+            })
+          }
+        />
+
+        <SelectForm
+          name="inclusos"
+          label="Inclusos"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingProduto}
+          isMulti
+          handleChange={(option) => {
+            setValue("inclusos", option.map((opt: { value: string, label: string }) => opt.value));
+          }}
+          options={dataProduto
+            ?.map((produto) => ({
+              label: `${produto?.nome}`,
+              value: produto?.id,
+            }))}
+          defaultValue={
+            data.Inclusos.map((opcional) => {
+              return {
+                value: opcional.id,
+                label: opcional.nome
+              }
+            })
+          }
+        />
 
 
         <Flex justifyContent="flex-end" gap="15px">

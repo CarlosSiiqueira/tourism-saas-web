@@ -55,6 +55,9 @@ const handleSubmitRegisterSchema = z.object({
     .optional(),
   galeria: z
     .array(z.string())
+    .optional(),
+  inclusos: z
+    .array(z.string())
     .optional()
 });
 
@@ -259,31 +262,39 @@ const ModalRegisterPacote = ({
           </Box>
         </FieldWrap>
 
-        <FieldWrap>
-          <span>Opcionais</span>
+        <SelectForm
+          name="opcionais"
+          label="Opcionais"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingProduto}
+          isMulti
+          handleChange={(option) => {
+            setValue("opcionais", option.map((opt: { value: string, label: string }) => opt.value));
+          }}
+          options={dataProduto
+            ?.map((produto) => ({
+              label: `${produto?.nome}`,
+              value: produto?.id,
+            }))}
+        />
 
-          <Box display="flex" gap="10px">
-            <ReactSelect
-              className="select-fields large"
-              classNamePrefix="select"
-              closeMenuOnSelect={true}
-              {...register?.("opcionais")}
-              isSearchable={true}
-              placeholder="Selecione"
-              noOptionsMessage={() => "Não há opcional cadastrado"}
-              isLoading={isLoadingProduto}
-              isMulti
-              onChange={(option) => {
-                setValue("opcionais", option.map((opt) => opt.value));
-              }}
-              options={dataProduto
-                ?.map((produto) => ({
-                  label: `${produto?.nome}`,
-                  value: produto?.id,
-                }))}
-            />
-          </Box>
-        </FieldWrap>
+        <SelectForm
+          name="inclusos"
+          label="Inclusos"
+          minW="135px"
+          isSearchable
+          isLoading={isLoadingProduto}
+          isMulti
+          handleChange={(option) => {
+            setValue("inclusos", option.map((opt: { value: string, label: string }) => opt.value));
+          }}
+          options={dataProduto
+            ?.map((produto) => ({
+              label: `${produto?.nome}`,
+              value: produto?.id,
+            }))}
+        />
 
         <Flex justifyContent="flex-end" gap="15px">
           <Button

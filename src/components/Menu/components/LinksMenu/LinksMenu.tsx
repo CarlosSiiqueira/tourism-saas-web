@@ -69,7 +69,7 @@ const LinksMenu = ({ onClose: _ }: ILinksMenu) => {
 
               <MenuList>
                 <MenuItem>
-                  <Link to="/produtos2">Produtos</Link>
+                  <Link to="/produtos2">Produtos & Serviços</Link>
                 </MenuItem>
                 <MenuItem>
                   <Link to="/categoria-transacao">Categoria Transação</Link>
