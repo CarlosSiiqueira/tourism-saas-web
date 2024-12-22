@@ -36,7 +36,7 @@ const handleSubmitRegisterSchema = z.object({
       message: fieldRequired("Forma de Pagamento")
     }),
   defaultSlideImages: z
-    .array(z.object({ id: z.string(), label: z.string() }))
+    .array(z.object({ id: z.string(), label: z.string(), imageUrl: z.string() }))
     .min(1, {
       message: fieldRequired('Imagens Slide')
     })
@@ -126,7 +126,7 @@ const ConfiguracaoList = () => {
     })
   }
 
-  const setConfigSlide = async (images: Array<{ id: string, label: string }>) => {
+  const setConfigSlide = async (images: Array<{ id: string, label: string, imageUrl: string }>) => {
 
     if (configSlideImages) {
       mutateToUpdateConfig({
@@ -266,7 +266,7 @@ const ConfiguracaoList = () => {
                   handleChange={(option) => {
                     setValue("defaultSlideImages",
                       option.map((opt: { value: string, label: string, imageUrl: string }) => {
-                        return { id: opt.value, label: opt.label }
+                        return { id: opt.value, label: opt.label, imageUrl: opt.imageUrl }
                       }));
                   }}
                   options={dataImage
@@ -278,10 +278,11 @@ const ConfiguracaoList = () => {
                   CustomOption={SelectImageOption}
                   errors={errors.defaultSlideImages}
                   defaultValue={
-                    defaultImages.map((img: { id: string, label: string }) => {
+                    defaultImages.map((img: { id: string, label: string, imageUrl: string }) => {
                       return {
                         value: img.id,
-                        label: img.label
+                        label: img.label,
+                        imageUrl: img.imageUrl
                       }
                     })
                   }
