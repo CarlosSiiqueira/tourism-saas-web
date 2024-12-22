@@ -16,7 +16,7 @@ export interface ISelectForm {
   errors?: FieldError
   value?: any
   defaultValue?: any
-  handleChange?: (value: any) => void
+  handleChange?: (value: any, actionMeta: ActionMeta<any>) => void
   styles?: SystemStyleObject
   maxW?: string
   isLoading?: boolean
@@ -26,6 +26,7 @@ export interface ISelectForm {
   noOptionsMessage?: string
   helpIcon?: JSX.Element
   CustomOption?: SelectComponents
+  isClearable?: boolean
 }
 export interface IOption {
   label: string

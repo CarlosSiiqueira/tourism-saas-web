@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobal } from '../../../../../contexts/UserContext';
 import SelectForm from '../../../../../components/SelectForm';
+import { IOption } from '../../../../../components/SelectForm/types';
 
 const handleSubmitRegisterSchema = z.object({
   codigoPassageiro: z
@@ -33,14 +34,16 @@ function OnibusList() {
   const navigate = useNavigate();
   const { user } = useGlobal();
   const { id: _id } = useParams();
+  var action = 1;
   const { getExcursao } = useExcursoes();
-  const { getAcentos, createExcursaoOnibus, listExcursaoPassageirosNoChair } = useExcursaoOnibus();
+  const { getAcentos, createExcursaoOnibus, listExcursaoPassageirosNoChair, removeAcentoOnibus } = useExcursaoOnibus();
   const { data: dataExcursao, isLoading: loadingExcursao } = getExcursao(_id || '');
-  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoChair(_id || '');
+  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoChair(_id || '', action);
   const registerPerPage = 10
   const [currentPage, setCurrentPage] = useState(1);
   const [acentos, setAcentoName] = useState('')
   const { mutate: mutateTocreateOnibus, isLoading: isLoadingOnibus } = createExcursaoOnibus();
+  const { mutate: mutateToRemoveOnibus, isLoading: isLoadingDelete } = removeAcentoOnibus()
 
   const {
     setValue,
@@ -58,6 +61,7 @@ function OnibusList() {
   }, _id || '');
 
   const saveAcentoOnibus = async (passageiro: string, acento: string) => {
+    action++
     mutateTocreateOnibus({
       numeroCadeira: acento,
       codigoExcursao: _id || '',
@@ -65,6 +69,11 @@ function OnibusList() {
       usuarioCadastro: user?.id,
     })
   };
+
+  const deleteAcentoOnibus = async (passageiro: string) => {
+    action++
+    mutateToRemoveOnibus({ idPassageiro: passageiro, excursaoId: _id })
+  }
 
   return (
     <>
@@ -116,7 +125,17 @@ function OnibusList() {
                           name="codigoPassageiro"
                           maxW='100px'
                           isRequired
-                          handleChange={(option) => {
+                          isClearable
+                          handleChange={(option, actionMeta) => {
+
+                            if (actionMeta.action === "clear") {
+
+                              setValue('codigoPassageiro', '')
+                              let idPassageiro = actionMeta.removedValues.map((opt: IOption) => { return opt.value })
+                              deleteAcentoOnibus(idPassageiro[0])
+                              return
+                            }
+
                             setValue("codigoPassageiro", option?.value);
                             saveAcentoOnibus(option.value || '', option.data.index)
                           }}
@@ -130,7 +149,7 @@ function OnibusList() {
                             }))}
                           defaultValue={{
                             label: item?.Passageiro?.Pessoa.nome,
-                            value: item?.id
+                            value: item?.Passageiro.Pessoa.id
                           }}
                           errors={errors.codigoPassageiro}
                         />

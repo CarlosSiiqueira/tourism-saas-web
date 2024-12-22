@@ -59,3 +59,8 @@ export interface IPassageiroExcursaoOnibusResponse {
   count: number
   isLoading: boolean
 }
+
+export interface IDeleteExcursaoOnibusArgs {
+  idPassageiro: string
+  excursaoId: string
+}

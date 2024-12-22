@@ -4,6 +4,7 @@ import { apiPrados } from "../services/api";
 import {
   ICreateExcursaoOnibusArgs,
   ICreateExcursaoOnibusResponse,
+  IDeleteExcursaoOnibusArgs,
   IExcursaoOnibus,
   IExcursaoOnibusAcentosResponse,
   IExcursaoOnibusArgs,
@@ -24,8 +25,9 @@ const createExcursaoOnibus = (): ICreateExcursaoOnibusResponse => {
         await apiPrados.post(urlPath, data).then(() => {
 
           queryClient.invalidateQueries([keys.excursaoOnibus])
+          
           useToastStandalone({
-            title: "Assento(s) Registrado(s)!",
+            title: "Assento Registrado!",
             status: "success",
           });
         })
@@ -140,9 +142,13 @@ const getExcursaoOnibus = (idExcursao?: string): IExcursaoOnibusResponse => {
   }
 }
 
-const listExcursaoPassageirosNoChair = (idExcursao: string): IPassageiroExcursaoOnibusResponse => {
+const listExcursaoPassageirosNoChair = (idExcursao: string, action: number): IPassageiroExcursaoOnibusResponse => {
   const { data, isLoading } = useQuery(
-    [],
+    [
+      keys.excursaoOnibus,
+      action,
+      idExcursao
+    ],
     async () => {
       const path = `excursao-passageiros/list-passageiros-no-chair/${idExcursao}`;
       try {
@@ -162,39 +168,40 @@ const listExcursaoPassageirosNoChair = (idExcursao: string): IPassageiroExcursao
   };
 }
 
-// const updateExcursaoOnibus = (): IUpdateExcursaoOnibusResponse => {
+const removeAcentoOnibus = (): ICreateExcursaoOnibusResponse => {
 
-//   const { isLoading, mutate } = useMutation(
-//     async (data: IUpdateExcursaoOnibusArgs) => {
-//       const urlPath = `passageiro-Onibus/update/${data.id}`;
-//       try {
-//         await apiPrados.put(urlPath, data).then((data) => {
+  const { isLoading, mutate } = useMutation(
+    async (data: IDeleteExcursaoOnibusArgs) => {
+      const urlPath = `excursao-onibus/delete/${data.idPassageiro}/${data.excursaoId}`
 
-//           queryClient.invalidateQueries([keys.excursaoOnibus])
+      try {
+        await apiPrados.delete(urlPath).then(() => {
 
-//           useToastStandalone({
-//             title: "Atualizado com sucesso!",
-//             status: "success"
-//           })
-//         })
-//       } catch (error: any) {
-//         throw new Warning(error.response.data.message, error?.response?.status);
-//       }
-//     }
-//   )
+          queryClient.invalidateQueries([keys.excursaoOnibus])
 
-//   return {
-//     isLoading,
-//     mutate
-//   }
-// }
+          useToastStandalone({
+            title: "Assento removido!",
+            status: "success",
+          });
+        })
+      } catch (error: any) {
+        throw new Warning(error.response.data.message, error?.response?.status);
+      }
+    }
+  )
+
+  return {
+    isLoading,
+    mutate
+  }
+}
 
 export default function useExcursaoOnibus() {
   return {
     createExcursaoOnibus,
     getAcentos,
     getExcursaoOnibus,
-    listExcursaoPassageirosNoChair
-    // updateExcursaoOnibus
+    listExcursaoPassageirosNoChair,
+    removeAcentoOnibus
   }
 }

@@ -36,6 +36,7 @@ const SelectForm = ({
   helpText,
   noOptionsMessage = "Não há itens para selecionar",
   helpIcon,
+  isClearable,
   CustomOption
 }: ISelectForm) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -92,6 +93,7 @@ const SelectForm = ({
           placeholder={placeholder}
           className="select-fields"
           classNamePrefix="select"
+          isClearable
           theme={(theme) => ({
             ...theme,
             colors: {
@@ -102,9 +104,9 @@ const SelectForm = ({
           noOptionsMessage={() => noOptionsMessage}
           name={name}
           getOptionLabel={(opt) => opt.label}
-          onChange={(newValue) => {
+          onChange={(newValue, actionMeta) => {
             if (handleChange) {
-              handleChange(newValue);
+              handleChange(newValue, actionMeta);
               return;
             }
             setValue(
