@@ -291,7 +291,8 @@ const ModalRegisterTransacao = ({
             label="Nº do comprovante bancário"
             minW="250px"
             maxW="250px"
-            {...register("numeroComprovanteBancario")}
+            name="numeroComprovanteBancario"
+            register={register}
             errors={errors?.numeroComprovanteBancario}
           />
 

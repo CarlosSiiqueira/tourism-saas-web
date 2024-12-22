@@ -27,6 +27,7 @@ import { IVendas } from "../../../../models/vendas.model";
 import { IOption } from "../../../../components/SelectForm/types";
 import { formattingDate } from "../../../../utils/formattingDate";
 import { IExcursao } from "../../../../models/excursao.model";
+import FormInput from "../../../../components/FormInput";
 
 const handleSubmitRegisterSchema = z.object({
   codigoProduto: z
@@ -60,6 +61,9 @@ const handleSubmitRegisterSchema = z.object({
     .min(1, {
       message: fieldRequired('Forma Pagamento')
     }),
+  numeroComprovante: z
+    .string()
+    .optional()
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -79,7 +83,7 @@ const ModalRegisterVenda = ({
   const { getAllFormaPagamentos } = useFormaPagamento()
   const { getAllPessoas } = usePessoas()
   const { getExcursoes, findExcursao } = useExcursoes()
-  
+
   const {
     getValues,
     setValue,
@@ -95,7 +99,8 @@ const ModalRegisterVenda = ({
       codigoProduto: data.Produtos?.id,
       codigoCliente: data.codigoCliente,
       codigoExcursao: data.Excursao?.id,
-      codigoFormaPagamento: data.codigoFormaPagamento
+      codigoFormaPagamento: data.codigoFormaPagamento,
+      numeroComprovante: data.numeroComprovante || ''
     }
   });
 
@@ -232,27 +237,44 @@ const ModalRegisterVenda = ({
           errors={errors.codigoExcursao}
         />
 
-        <SelectForm
-          name="codigoFormaPagamento"
-          label="Forma de Pagamento"
-          minW="135px"
-          isRequired
-          isSearchable
-          isLoading={loadingFormaPagamentos}
-          handleChange={(option) => {
-            setValue("codigoFormaPagamento", option?.value);
-          }}
-          options={dataFormaPagamentos
-            ?.map((codigoFormaPagamento) => ({
-              label: codigoFormaPagamento?.nome,
-              value: codigoFormaPagamento?.id,
-            }))}
-          defaultValue={{
-            label: data?.FormaPagamento?.nome,
-            value: data?.FormaPagamento?.id
-          }}
-          errors={errors.codigoFormaPagamento}
-        />
+        <Flex
+          gap="15px"
+          flexDirection={{
+            base: "column",
+            lg: "row",
+          }}>
+
+          <SelectForm
+            name="codigoFormaPagamento"
+            label="Forma de Pagamento"
+            minW="135px"
+            isRequired
+            isSearchable
+            isLoading={loadingFormaPagamentos}
+            handleChange={(option) => {
+              setValue("codigoFormaPagamento", option?.value);
+            }}
+            options={dataFormaPagamentos
+              ?.map((codigoFormaPagamento) => ({
+                label: codigoFormaPagamento?.nome,
+                value: codigoFormaPagamento?.id,
+              }))}
+            defaultValue={{
+              label: data?.FormaPagamento?.nome,
+              value: data?.FormaPagamento?.id
+            }}
+            errors={errors.codigoFormaPagamento}
+          />
+
+          <FormInput
+            label="Nº do comprovante"
+            minW="250px"
+            name="numeroComprovante"
+            register={register}
+            errors={errors?.numeroComprovante}
+          />
+
+        </Flex>
 
         <Flex
           gap="15px"

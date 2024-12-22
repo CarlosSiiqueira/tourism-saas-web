@@ -24,9 +24,9 @@ import FormInputNumber from "../../../../components/FormInputNumber";
 import { useState } from "react";
 import SelectForm from "../../../../components/SelectForm";
 import { useParams } from "react-router-dom";
-import { IOption } from "../../../../components/SelectForm/types";
 import { IExcursao } from "../../../../models/excursao.model";
 import { formattingDate } from "../../../../utils/formattingDate";
+import FormInput from "../../../../components/FormInput";
 
 const handleSubmitRegisterSchema = z.object({
   codigoProduto: z
@@ -50,7 +50,7 @@ const handleSubmitRegisterSchema = z.object({
     .min(1, {
       message: fieldRequired("Valor"),
     }),
-    valorTotal: z
+  valorTotal: z
     .number()
     .min(1, {
       message: fieldRequired("Total"),
@@ -60,6 +60,9 @@ const handleSubmitRegisterSchema = z.object({
     .min(1, {
       message: fieldRequired('Forma Pagamento')
     }),
+  numeroComprovante: z
+    .string()
+    .optional()
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -210,23 +213,42 @@ const ModalRegisterVenda = ({
           errors={errors.codigoExcursao}
         />
 
-        <SelectForm
-          name="codigoFormaPagamento"
-          label="Forma de Pagamento"
-          minW="135px"
-          isRequired
-          isSearchable
-          isLoading={loadingFormaPagamentos}
-          handleChange={(option) => {
-            setValue("codigoFormaPagamento", option?.value);
-          }}
-          options={dataFormaPagamentos
-            ?.map((codigoFormaPagamento) => ({
-              label: codigoFormaPagamento?.nome,
-              value: codigoFormaPagamento?.id,
-            }))}
-          errors={errors.codigoFormaPagamento}
-        />
+
+        <Flex
+          gap="15px"
+          flexDirection={{
+            base: "column",
+            lg: "row",
+          }}>
+
+          <SelectForm
+            name="codigoFormaPagamento"
+            label="Forma de Pagamento"
+            minW="135px"
+            isRequired
+            isSearchable
+            isLoading={loadingFormaPagamentos}
+            handleChange={(option) => {
+              setValue("codigoFormaPagamento", option?.value);
+            }}
+            options={dataFormaPagamentos
+              ?.map((codigoFormaPagamento) => ({
+                label: codigoFormaPagamento?.nome,
+                value: codigoFormaPagamento?.id,
+              }))}
+
+            errors={errors.codigoFormaPagamento}
+          />
+
+          <FormInput
+            label="Nº do comprovante"
+            minW="250px"
+            name="numeroComprovante"
+            register={register}
+            errors={errors?.numeroComprovante}
+          />
+
+        </Flex>
 
         <Flex
           gap="15px"

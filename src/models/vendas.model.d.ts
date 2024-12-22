@@ -16,6 +16,7 @@ export interface IVendas {
   codigoProduto: string | null
   codigoPacote: string | null
   usuarioCadastro: string
+  numeroComprovante?: string | null
   Usuarios: {
     id: string,
     nome: string
@@ -55,6 +56,7 @@ export interface ICreateVendasArgs {
   valor: number
   codigoFormaPagamento: string
   tipo: number
+  numeroComprovante?: string | null
 }
 
 export interface IUpdateVendasArgs extends ICreateVendasArgs {
