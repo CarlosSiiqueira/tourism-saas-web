@@ -13,6 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobal } from '../../../../../contexts/UserContext';
 import SelectForm from '../../../../../components/SelectForm';
 import { IOption } from '../../../../../components/SelectForm/types';
+import useFiles from '../../../../../hooks/useFiles';
+import ButtonIcon from '../../../../../components/ButtonIcon';
+import { FaFileExcel } from 'react-icons/fa';
 
 const handleSubmitRegisterSchema = z.object({
   codigoPassageiro: z
@@ -36,6 +39,7 @@ function OnibusList() {
   const { id: _id } = useParams();
   var action = 1;
   const { getExcursao } = useExcursoes();
+  const { generateCsvOnibus } = useFiles()
   const { getAcentos, createExcursaoOnibus, listExcursaoPassageirosNoChair, removeAcentoOnibus } = useExcursaoOnibus();
   const { data: dataExcursao, isLoading: loadingExcursao } = getExcursao(_id || '');
   const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoChair(_id || '', action);
@@ -44,6 +48,7 @@ function OnibusList() {
   const [acentos, setAcentoName] = useState('')
   const { mutate: mutateTocreateOnibus, isLoading: isLoadingOnibus } = createExcursaoOnibus();
   const { mutate: mutateToRemoveOnibus, isLoading: isLoadingDelete } = removeAcentoOnibus()
+  const { isLoading: isLoadingCsv, csv } = generateCsvOnibus()
 
   const {
     setValue,
@@ -88,8 +93,19 @@ function OnibusList() {
           </Button>
 
           <Flex gap="10px" flexWrap="wrap">
+            <ButtonIcon>
+              <FaFileExcel
+                size={20}
+                cursor='pointer'
+                onClick={() => {
+                  if (!isLoadingCsv) {
+                    csv(_id || '')
+                  }
+                }}
+              />
+            </ButtonIcon>
             <Text fontSize="2xl" fontWeight="bold">
-              Ônibus:
+              Onibus:
             </Text>
             <Text fontSize="2xl">
               {dataExcursao.nome}
