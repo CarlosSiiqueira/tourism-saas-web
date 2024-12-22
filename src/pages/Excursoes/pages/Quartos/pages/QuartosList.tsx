@@ -25,15 +25,16 @@ import { FaFileExcel } from "react-icons/fa";
 import useFiles from "../../../../../hooks/useFiles";
 import useLocalEmbarque from "../../../../../hooks/useLocalEmbarque";
 import FieldSearch from "../../../../../components/FieldSearch";
+import useTipoQuarto from "../../../../../hooks/useTipoQuarto";
 
 const QuartosList = () => {
   const { id: _id } = useParams();
   const navigate = useNavigate();
   const { getExcursaoQuarto, deleteExcursaoQuarto } = useExcursaoQuarto();
+  const { getAllTipoQuartos } = useTipoQuarto()
   const { getExcursao } = useExcursao();
   const { data: dataExcursao, isLoading: loadingExcursao } = getExcursao(_id || '');
   const { generateCsvQuartos } = useFiles()
-  const { getLocalEmbarque } = useLocalEmbarque()
 
   const [modalRecordQuarto, setModalRecordQuarto] = useState(false);
   const [modalUpdateQuarto, setModalUpdateQuarto] = useState(false);
@@ -41,16 +42,18 @@ const QuartosList = () => {
   const [filter, setResetFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [quartoData, setQuartoData] = useState<IExcursaoQuarto | undefined>();
-  const [localEmbarqueSelected, setLocalEmbarqueSelected] = useState<ISelect | null>();
+  const [tipoQuarto, setTipoQuarto] = useState<ISelect | null>();
   const [nome, setNome] = useState<string>();
-  const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
+  const { data: dataTipoQuarto, isLoading: loadingTipoQuarto } = getAllTipoQuartos()
   const registerPerPage = 10;
   var numeroQuarto: string = '1'
 
   const { data, count, isLoading, summary } = getExcursaoQuarto({
     size: registerPerPage,
     page: currentPage,
-    idExcursao: _id || ''
+    idExcursao: _id || '',
+    nome,
+    idTipoQuarto: typeof tipoQuarto?.value == 'string' ? tipoQuarto.value : null
   });
 
   const { isLoading: isLoadingCsv, csv } = generateCsvQuartos()
@@ -138,21 +141,21 @@ const QuartosList = () => {
             />
           </div>
           <Flex flexDirection="column" gap="5px" width="500px">
-            <span>Local de Embarque</span>
+            <span>Tipo Quarto</span>
 
             <ReactSelect
               className="select-fields"
               classNamePrefix="select"
               closeMenuOnSelect={true}
               isSearchable={true}
-              value={localEmbarqueSelected}
+              value={tipoQuarto}
               placeholder="Selecionar"
-              noOptionsMessage={() => "Nenhum local encontrado"}
+              noOptionsMessage={() => "Nenhum tipo encontrado"}
               onChange={(item) => {
-                setLocalEmbarqueSelected(item);
+                setTipoQuarto(item);
               }}
-              options={localEmbarqueData.map((local) => {
-                return { value: local.id, label: local.nome }
+              options={dataTipoQuarto.map((tipoQuarto) => {
+                return { value: tipoQuarto.id, label: tipoQuarto.nome }
               })}
             />
 
@@ -165,7 +168,7 @@ const QuartosList = () => {
               setResetFilter(false);
               setCurrentPage(1)
               setNome('')
-              setLocalEmbarqueSelected(null)
+              setTipoQuarto(null)
             }}
           >
             Limpar Filtros

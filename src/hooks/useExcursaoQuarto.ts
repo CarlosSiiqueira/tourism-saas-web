@@ -41,13 +41,15 @@ const listExcursaoPassageirosNoRoom = (idExcursao: string, numeroQuarto: string)
   };
 }
 
-const getExcursaoQuarto = ({ page, size, idExcursao }: IExcursaoQuartoArgs): IExcursaoQuartoResponse => {
+const getExcursaoQuarto = ({ page, size, idExcursao, idTipoQuarto, nome }: IExcursaoQuartoArgs): IExcursaoQuartoResponse => {
 
   const { data, isLoading } = useQuery(
     [
       keys.excursaoQuarto,
       page,
-      idExcursao
+      idExcursao,
+      idTipoQuarto,
+      nome
     ],
     async () => {
       const path = 'excursao-quartos/index';
@@ -57,7 +59,9 @@ const getExcursaoQuarto = ({ page, size, idExcursao }: IExcursaoQuartoArgs): IEx
           params: {
             page,
             size,
-            idExcursao
+            idExcursao,
+            idTipoQuarto,
+            nome
           },
         });
 
