@@ -62,7 +62,7 @@ const ModalRegisterOnibus = ({
     });
     const { id: idExcursao } = useParams();
     const { mutate, isLoading } = createExcursaoOnibus();
-    const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '');
+    const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '', 'a');
 
     const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
         mutate({
@@ -98,7 +98,7 @@ const ModalRegisterOnibus = ({
                             noOptionsMessage={() => "Não há passageiros cadastrados"}
                             options={dataPassageiros
                                 .map((passageiro) => ({
-                                    label: `${passageiro?.reserva} - ${passageiro?.Pessoa.nome}`,
+                                    label: `${passageiro?.Reservas.reserva} - ${passageiro?.Pessoa.nome}`,
                                     value: passageiro?.id,
                                 }))}
                             name="codigoPassageiro"

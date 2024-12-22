@@ -15,7 +15,7 @@ import {
 
 import { FieldWrap } from "./styled";
 import ReactSelect from "react-select";
-import { IExcursaoQuarto, IUpdateExcursaoQuartoArgs } from "../../../../../../models/excursao-quarto.model";
+import { IExcursaoQuarto } from "../../../../../../models/excursao-quarto.model";
 import { useGlobal } from "../../../../../../contexts/UserContext";
 import { useParams } from "react-router-dom";
 import useTipoQuarto from "../../../../../../hooks/useTipoQuarto";
@@ -68,14 +68,16 @@ const ModalUpdateQuarto = ({
   });
   const { id: idExcursao } = useParams();
   const { mutate, isLoading } = updateExcursaoQuarto(reset, handleClose);
-  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '');
+  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '', data.numeroQuarto);
   const { data: dataTipoQuarto, isLoading: loadingTipoQuarto } = getAllTipoQuartos()
 
   let passageiros = data.Passageiros.map((value) => {
-    return { id: value.id, Pessoa: { id: value.id, nome: value.Pessoa.nome }, reserva: value.Reservas.reserva }
+    return { id: value.id, Pessoa: { id: value.id, nome: value.Pessoa.nome }, Reservas: { reserva: value.Reservas.reserva } }
   })
 
   const allOptions = [...dataPassageiros, ...passageiros]
+
+  debugger
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
     mutate({
@@ -111,7 +113,7 @@ const ModalUpdateQuarto = ({
               noOptionsMessage={() => "Não há passageiros cadastrados"}
               options={allOptions
                 ?.map((passageiro) => ({
-                  label: `${passageiro.reserva} - ${passageiro?.Pessoa.nome}`,
+                  label: `${passageiro.Reservas.reserva} - ${passageiro?.Pessoa.nome}`,
                   value: passageiro?.Pessoa.id,
                 }))}
               name="passageiros"
