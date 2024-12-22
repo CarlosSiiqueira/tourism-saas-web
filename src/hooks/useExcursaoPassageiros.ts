@@ -13,12 +13,13 @@ import {
 import { Warning } from "../errors";
 import { keys, queryClient } from "../services/query";
 
-const getAllPassageiros = ({ page, size, localEmbarque }: IExcursaoPassageiroArgs, idExcursao: string): IExcursaoPassageiroResponse => {
+const getAllPassageiros = ({ page, size, localEmbarque, nome }: IExcursaoPassageiroArgs, idExcursao: string): IExcursaoPassageiroResponse => {
   const { data, isLoading } = useQuery(
-    [      
+    [
       page,
       localEmbarque,
-      idExcursao
+      idExcursao,
+      nome
     ],
     async () => {
       const path = `excursao-passageiros/index/${idExcursao}`;
@@ -28,7 +29,8 @@ const getAllPassageiros = ({ page, size, localEmbarque }: IExcursaoPassageiroArg
           params: {
             page,
             size,
-            localEmbarque
+            localEmbarque,
+            nome
           },
         });
 

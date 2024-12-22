@@ -27,6 +27,8 @@ import { FaListOl } from "react-icons/fa";
 import { IExcursaoPassageiro, IOpcionais } from "../../../../../models/excursao-passageiro.model";
 import ModalDetailSummary from "../components/ModalDetailSummary";
 import { formattingDate } from "../../../../../utils/formattingDate";
+import useLocalEmbarque from "../../../../../hooks/useLocalEmbarque";
+import FieldSearch from "../../../../../components/FieldSearch";
 
 const PassageirosList = () => {
   const { id: _id } = useParams();
@@ -34,6 +36,7 @@ const PassageirosList = () => {
   const { getAllPassageiros } = useExcursaoPassageiros();
   const { getExcursao } = useExcursao();
   const { generateCsvPassageiros } = useFiles()
+  const { getLocalEmbarque } = useLocalEmbarque()
   const { data: dataExcursao, isLoading: loadingExcursao } = getExcursao(_id || '');
   const { isLoading: isLoadingCsv, csv } = generateCsvPassageiros()
   const [dataPassageiro, setDataPassageiro] = useState<{ nome: string, id: string, reserva: string }>()
@@ -41,15 +44,19 @@ const PassageirosList = () => {
   const [modalOpcionais, setModalOpcionais] = useState(false)
   const [dataOpcionais, setDataOpcionais] = useState<IOpcionais[]>([])
   const [modalAllOpcionais, setModalAllOpcionais] = useState(false)
+  const [localEmbarqueSelected, setLocalEmbarqueSelected] = useState<ISelect | null>();
+  const [nome, setNome] = useState<string>();
+  const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
 
-  const [statusSelected, setStatusSelected] = useState<ISelect | null>();
+  const [filter, setResetFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const registerPerPage = 10;
 
   const { data, count, isLoading, summary } = getAllPassageiros({
     size: registerPerPage,
     page: currentPage,
-    localEmbarque: null
+    localEmbarque: typeof localEmbarqueSelected?.value == 'string' ? localEmbarqueSelected.value : null,
+    nome: nome
   }, _id || '');
 
   let total = 0
@@ -109,37 +116,47 @@ const PassageirosList = () => {
 
       <Content className="contentMain">
         <Flex width="100%" gap="15px" alignItems="flex-end" flexWrap="wrap">
+          <div className="searchWrap">
+            <span>Buscar Passageiro</span>
+            <FieldSearch
+              placeholder=""
+              handleSearch={(event) => {
+                setResetFilter(false);
+                setCurrentPage(1);
+                setNome(event)
+              }}
+              reset={filter}
+            />
+          </div>
           <Flex flexDirection="column" gap="5px" width="500px">
-            <span>Passageiros</span>
+            <span>Local de Embarque</span>
 
             <ReactSelect
               className="select-fields"
               classNamePrefix="select"
               closeMenuOnSelect={true}
               isSearchable={true}
-              value={statusSelected}
+              value={localEmbarqueSelected}
               placeholder="Selecionar"
-              noOptionsMessage={() => "Nenhum Quarto encontrado"}
+              noOptionsMessage={() => "Nenhum local encontrado"}
               onChange={(item) => {
-                setStatusSelected(item);
+                setLocalEmbarqueSelected(item);
               }}
-              options={[
-                {
-                  label: "Quarto 1",
-                  value: 1,
-                },
-                {
-                  label: "Quarto 2",
-                  value: 2,
-                },
-              ]}
+              options={localEmbarqueData.map((local) => {
+                return { value: local.id, label: local.nome }
+              })}
             />
+
           </Flex>
+
           <Button
             borderRadius="5px"
             variant="outline"
             onClick={() => {
-              setStatusSelected(null);
+              setResetFilter(false);
+              setCurrentPage(1)
+              setNome('')
+              setLocalEmbarqueSelected(null)
             }}
           >
             Limpar Filtros
@@ -177,10 +194,12 @@ const PassageirosList = () => {
                             {item.Reservas.reserva}
                           </TD>
                           <TD>
-                            <FaWhatsapp style={{ color: 'green', fontSize: '24px', marginRight: '5px' }} />
-                            <a href={`https://wa.me/55${item.Pessoa.telefoneWpp}`} target="_blank">
-                              {phoneMask(item.Pessoa.telefoneWpp || '')}
-                            </a>
+                            {item.Pessoa.telefoneWpp ? (<>
+                              <FaWhatsapp style={{ color: 'green', fontSize: '24px', marginRight: '5px' }} />
+                              <a href={`https://wa.me/55${item.Pessoa.telefoneWpp}`} target="_blank">
+                                {phoneMask(item.Pessoa.telefoneWpp || '')}
+                              </a>
+                            </>) : 'Sem número'}
                           </TD>
                           <TD>
                             {item.LocalEmbarque.nome}

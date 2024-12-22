@@ -23,6 +23,8 @@ import { IExcursaoQuarto } from "../../../../../models/excursao-quarto.model";
 import AlertModal from "../../../../../components/AlertModal";
 import { FaFileExcel } from "react-icons/fa";
 import useFiles from "../../../../../hooks/useFiles";
+import useLocalEmbarque from "../../../../../hooks/useLocalEmbarque";
+import FieldSearch from "../../../../../components/FieldSearch";
 
 const QuartosList = () => {
   const { id: _id } = useParams();
@@ -31,13 +33,17 @@ const QuartosList = () => {
   const { getExcursao } = useExcursao();
   const { data: dataExcursao, isLoading: loadingExcursao } = getExcursao(_id || '');
   const { generateCsvQuartos } = useFiles()
+  const { getLocalEmbarque } = useLocalEmbarque()
 
   const [modalRecordQuarto, setModalRecordQuarto] = useState(false);
   const [modalUpdateQuarto, setModalUpdateQuarto] = useState(false);
   const [modalRemoveExcursaoQuarto, setModalRemoveExcursaoQuarto] = useState(false);
-  const [statusSelected, setStatusSelected] = useState<ISelect | null>();
+  const [filter, setResetFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [quartoData, setQuartoData] = useState<IExcursaoQuarto | undefined>();
+  const [localEmbarqueSelected, setLocalEmbarqueSelected] = useState<ISelect | null>();
+  const [nome, setNome] = useState<string>();
+  const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
   const registerPerPage = 10;
   var numeroQuarto: string = '1'
 
@@ -119,37 +125,47 @@ const QuartosList = () => {
 
       <Content className="contentMain">
         <Flex width="100%" gap="15px" alignItems="flex-end" flexWrap="wrap">
+          <div className="searchWrap">
+            <span>Buscar Passageiro</span>
+            <FieldSearch
+              placeholder=""
+              handleSearch={(event) => {
+                setResetFilter(false);
+                setCurrentPage(1);
+                setNome(event)
+              }}
+              reset={filter}
+            />
+          </div>
           <Flex flexDirection="column" gap="5px" width="500px">
-            <span>Quarto</span>
+            <span>Local de Embarque</span>
 
             <ReactSelect
               className="select-fields"
               classNamePrefix="select"
               closeMenuOnSelect={true}
               isSearchable={true}
-              value={statusSelected}
+              value={localEmbarqueSelected}
               placeholder="Selecionar"
-              noOptionsMessage={() => "Nenhum Quarto encontrado"}
+              noOptionsMessage={() => "Nenhum local encontrado"}
               onChange={(item) => {
-                setStatusSelected(item);
+                setLocalEmbarqueSelected(item);
               }}
-              options={[
-                {
-                  label: "Quarto 1",
-                  value: 1,
-                },
-                {
-                  label: "Quarto 2",
-                  value: 2,
-                },
-              ]}
+              options={localEmbarqueData.map((local) => {
+                return { value: local.id, label: local.nome }
+              })}
             />
+
           </Flex>
+
           <Button
             borderRadius="5px"
             variant="outline"
             onClick={() => {
-              setStatusSelected(null);
+              setResetFilter(false);
+              setCurrentPage(1)
+              setNome('')
+              setLocalEmbarqueSelected(null)
             }}
           >
             Limpar Filtros

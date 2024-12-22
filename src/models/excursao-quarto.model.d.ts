@@ -23,6 +23,8 @@ export interface IExcursaoQuartoArgs {
   page: number;
   size: number;
   idExcursao: string
+  nome?: string | null
+  localEmbarque?: string | null
 }
 
 export interface IDataPassageiroExcursaoQuarto {

@@ -3,6 +3,7 @@ export interface IExcursaoPassageiroArgs {
   page: number;
   size: number;
   localEmbarque: string | null
+  nome?: string | null
 }
 
 export interface ICreateExcursaoPassageiroArgs {

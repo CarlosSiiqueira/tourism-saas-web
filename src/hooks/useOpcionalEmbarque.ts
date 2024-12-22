@@ -13,12 +13,14 @@ import {
 import { Warning } from "../errors";
 import { keys, queryClient } from "../services/query";
 
-const getOpcionalEmbarque = ({ page, size }: IOpcionalEmbarqueArgs, id: string, idExcursao: string): IOpcionalEmbarqueResponse => {
+const getOpcionalEmbarque = ({ page, size}: IOpcionalEmbarqueArgs, id: string, idExcursao: string): IOpcionalEmbarqueResponse => {
 
   const { data, isLoading } = useQuery(
     [
       keys.opcionalEmbarque,
-      page
+      page,
+      id,
+      idExcursao
     ],
     async () => {
       const path = `opcional-embarque/index/${id}/${idExcursao}`
@@ -30,8 +32,6 @@ const getOpcionalEmbarque = ({ page, size }: IOpcionalEmbarqueArgs, id: string, 
             size,
           },
         });
-        queryClient.invalidateQueries([keys.products])
-        queryClient.invalidateQueries([keys.opcionalEmbarque])
 
         return data
       } catch (error: any) {
