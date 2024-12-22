@@ -165,7 +165,7 @@ const QuartosList = () => {
           <>
             {data.length > 0 && (
               <>
-                <Accordion allowMultiple>
+                <Accordion allowMultiple index={data.map((_, idx) => idx)}>
                   {data.map((item, index) => (
                     <AccordionItem key={item.id}>
                       <h2>
@@ -261,30 +261,34 @@ const QuartosList = () => {
         />
       </SimpleModal>
 
-      {quartoData && (
-        <SimpleModal
-          title="Quarto"
-          size="xl"
-          isOpen={modalUpdateQuarto}
-          handleModal={setModalUpdateQuarto}
-        >
-          <ModalUpdateQuarto
-            handleClose={() => setModalUpdateQuarto(false)}
-            data={quartoData}
-          />
-        </SimpleModal>
-      )}
+      {
+        quartoData && (
+          <SimpleModal
+            title="Quarto"
+            size="xl"
+            isOpen={modalUpdateQuarto}
+            handleModal={setModalUpdateQuarto}
+          >
+            <ModalUpdateQuarto
+              handleClose={() => setModalUpdateQuarto(false)}
+              data={quartoData}
+            />
+          </SimpleModal>
+        )
+      }
 
-      {modalRemoveExcursaoQuarto && (
-        <AlertModal
-          title="Remover Quarto"
-          question="Deseja realmente remover este quarto?"
-          request={onConfirmRemoveExcursaoQuarto}
-          showModal={modalRemoveExcursaoQuarto}
-          setShowModal={setModalRemoveExcursaoQuarto}
-          size="md"
-        ></AlertModal>
-      )}
+      {
+        modalRemoveExcursaoQuarto && (
+          <AlertModal
+            title="Remover Quarto"
+            question="Deseja realmente remover este quarto?"
+            request={onConfirmRemoveExcursaoQuarto}
+            showModal={modalRemoveExcursaoQuarto}
+            setShowModal={setModalRemoveExcursaoQuarto}
+            size="md"
+          ></AlertModal>
+        )
+      }
     </>
   );
 };
