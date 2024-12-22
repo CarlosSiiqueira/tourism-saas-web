@@ -14,9 +14,13 @@ import { Warning } from "../errors";
 import { keys, queryClient } from "../services/query";
 
 
-const listExcursaoPassageirosNoRoom = (idExcursao: string): IPassageiroExcursaoQuartoResponse => {
+const listExcursaoPassageirosNoRoom = (idExcursao: string, numeroQuarto: string): IPassageiroExcursaoQuartoResponse => {
   const { data, isLoading } = useQuery(
-    [keys.excursaoQuartoPassageiro],
+    [
+      keys.excursaoQuartoPassageiro,
+      idExcursao,
+      numeroQuarto
+    ],
     async () => {
       const path = `excursao-passageiros/list-passageiros-no-room/${idExcursao}`;
 
@@ -37,12 +41,13 @@ const listExcursaoPassageirosNoRoom = (idExcursao: string): IPassageiroExcursaoQ
   };
 }
 
-const getExcursaoQuarto = ({ page, size }: IExcursaoQuartoArgs): IExcursaoQuartoResponse => {
+const getExcursaoQuarto = ({ page, size, idExcursao }: IExcursaoQuartoArgs): IExcursaoQuartoResponse => {
 
   const { data, isLoading } = useQuery(
     [
       keys.excursaoQuarto,
-      page
+      page,
+      idExcursao
     ],
     async () => {
       const path = 'excursao-quartos/index';
@@ -51,10 +56,11 @@ const getExcursaoQuarto = ({ page, size }: IExcursaoQuartoArgs): IExcursaoQuarto
         const { data } = await apiPrados.get(path, {
           params: {
             page,
-            size
+            size,
+            idExcursao
           },
         });
-        
+
         return data
       } catch (error: any) {
         throw new Warning(error.response.data.message, error.response.status);
@@ -80,10 +86,12 @@ const createExcursaoQuarto = (
       const urlPath = 'excursao-quartos/create'
       try {
         await apiPrados.post(urlPath, data).then(() => {
-          reset()
-          handleClose()
+
           queryClient.invalidateQueries([keys.excursaoQuarto])
           queryClient.invalidateQueries([keys.excursaoQuartoPassageiro])
+
+          reset()
+          handleClose()
 
           useToastStandalone({
             title: "Cadastro concluído!",

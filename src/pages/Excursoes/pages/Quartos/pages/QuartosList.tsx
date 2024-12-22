@@ -43,7 +43,8 @@ const QuartosList = () => {
 
   const { data, count, isLoading, summary } = getExcursaoQuarto({
     size: registerPerPage,
-    page: currentPage
+    page: currentPage,
+    idExcursao: _id || ''
   });
 
   const { isLoading: isLoadingCsv, csv } = generateCsvQuartos()

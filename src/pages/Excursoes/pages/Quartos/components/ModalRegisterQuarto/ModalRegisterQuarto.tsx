@@ -18,6 +18,8 @@ import ReactSelect from "react-select";
 import { useGlobal } from "../../../../../../contexts/UserContext";
 import { useParams } from "react-router-dom";
 import useTipoQuarto from "../../../../../../hooks/useTipoQuarto";
+import { keys, queryClient } from "../../../../../../services/query";
+import { useEffect } from "react";
 
 const handleSubmitRegisterSchema = z.object({
   passageiros: z
@@ -65,7 +67,7 @@ const ModalRegisterQuarto = ({
   });
   const { id: idExcursao } = useParams();
   const { mutate, isLoading } = createExcursaoQuarto(reset, handleClose);
-  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '');
+  const { data: dataPassageiros, isLoading: loadingPassageiros } = listExcursaoPassageirosNoRoom(idExcursao || '', numeroQuarto);
   const { data: dataTipoQuarto, isLoading: loadingTipoQuarto } = getAllTipoQuartos()
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
@@ -75,6 +77,16 @@ const ModalRegisterQuarto = ({
       usuarioCadastro: user?.id
     })
   };
+
+  useEffect(() => {
+    if (idExcursao && numeroQuarto) {
+      queryClient.invalidateQueries([
+        keys.excursaoQuartoPassageiro,
+        idExcursao,
+        numeroQuarto
+      ]);
+    }
+  }, [idExcursao, numeroQuarto, queryClient]);
 
   return (
     <form
@@ -102,7 +114,7 @@ const ModalRegisterQuarto = ({
               noOptionsMessage={() => "Não há passageiros cadastrados"}
               options={dataPassageiros
                 .map((passageiro) => ({
-                  label: `${passageiro?.reserva} - ${passageiro?.Pessoa.nome}`,
+                  label: `${passageiro?.Reservas.reserva} - ${passageiro?.Pessoa.nome}`,
                   value: passageiro?.id,
                 }))}
               name="passageiros"
@@ -141,7 +153,7 @@ const ModalRegisterQuarto = ({
               }}
             />
           </Box>
-          {errors.passageiros && <p className="error">{errors.passageiros.message}</p>}
+          {errors.idTipoQuarto && <p className="error">{errors.idTipoQuarto.message}</p>}
         </FieldWrap>
 
         <Input type="hidden" {...register("numeroQuarto")} />

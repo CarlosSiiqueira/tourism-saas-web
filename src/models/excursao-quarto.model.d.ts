@@ -22,6 +22,7 @@ export interface IExcursaoQuarto {
 export interface IExcursaoQuartoArgs {
   page: number;
   size: number;
+  idExcursao: string
 }
 
 export interface IDataPassageiroExcursaoQuarto {
@@ -30,7 +31,9 @@ export interface IDataPassageiroExcursaoQuarto {
     id: string
     nome: string
   }
-  reserva: string
+  Reservas: {
+    reserva: string
+  }
 }
 
 export interface IPassageiroExcursaoQuartoResponse {

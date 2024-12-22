@@ -67,7 +67,10 @@ const getExcursoes = (
 const getExcursao = (id: string): IExcursaoListResponse => {
 
   const { data, isLoading } = useQuery(
-    [keys.excursao],
+    [
+      keys.excursao,
+      id
+    ],
     async () => {
       const path = `excursao/find/${id}`
       try {
