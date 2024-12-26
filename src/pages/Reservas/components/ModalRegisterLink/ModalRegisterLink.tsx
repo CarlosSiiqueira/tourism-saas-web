@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormErrorMessage, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -47,7 +47,9 @@ const handleSubmitRegisterSchema = z.object({
     .optional(),
   quantidade: z
     .number()
-    .optional(),
+    .min(1, {
+      message: fieldRequired("Quantidade")
+    }),
   subtotal: z
     .number()
     .optional(),
@@ -295,34 +297,39 @@ const ModalRegisterLink = ({
               />
             </FieldWrap>
 
-            <FieldWrap>
-              <span>Quantidade </span>
-              <Input
-                height="40px"
-                minW="250px"
-                // maxWidth="50%"
-                {...register("quantidade", { valueAsNumber: true })}
-                placeholder="Quantidade"
-                onChange={(event) => {
-                  let newValue = parseInt(event.target.value)
+            <FormControl
+              isInvalid={errors.quantidade?.message ? true : false}
+            >
+              <FieldWrap>
+                <span>Quantidade <Asterisk /></span>
+                <Input
+                  height="40px"
+                  minW="250px"
+                  // maxWidth="50%"
+                  {...register("quantidade", { valueAsNumber: true })}
+                  placeholder="Quantidade"
+                  onChange={(event) => {
+                    let newValue = parseInt(event.target.value)
 
-                  if ((Number(newValue) && !isNaN(Number(newValue)))) {
-                    setValue('quantidade', newValue);
-                  } else {
-                    setValue('quantidade', 0);
-                  }
-                }}
-                onBlur={(event) => {
-                  setQuantidade(parseInt(event.currentTarget.value))
-                  onChangeQtd(parseInt(event.currentTarget.value))
-                  calculateTotal(parseInt(event.currentTarget.value), subTotal, getValues("desconto") || 0)
-                }}
-                flex="1.01"
-                maxLength={25}
-                name="quantidade"
-                defaultValue={0}
-              />
-            </FieldWrap>
+                    if ((Number(newValue) && !isNaN(Number(newValue)))) {
+                      setValue('quantidade', newValue);
+                    } else {
+                      setValue('quantidade', 0);
+                    }
+                  }}
+                  onBlur={(event) => {
+                    setQuantidade(parseInt(event.currentTarget.value))
+                    onChangeQtd(parseInt(event.currentTarget.value))
+                    calculateTotal(parseInt(event.currentTarget.value), subTotal, getValues("desconto") || 0)
+                  }}
+                  flex="1.01"
+                  maxLength={25}
+                  name="quantidade"
+                  defaultValue={1}
+                />
+                <FormErrorMessage>{errors.quantidade?.message}</FormErrorMessage>
+              </FieldWrap>
+            </FormControl>
           </Flex>
 
 
