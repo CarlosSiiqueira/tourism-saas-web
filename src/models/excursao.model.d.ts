@@ -13,6 +13,7 @@ export interface IExcursao {
   usuarioCadastro: string
   concluida: boolean
   qtdMinVendas: number
+  destacado: boolean
   ExcursaoPassageiros: {
     id: string
     reserva: string
@@ -81,6 +82,7 @@ export interface IExcursaoArgs {
   dataInicio?: string | null
   dataFim?: string | null
   status?: number | string | null
+  ativo?: boolean
 }
 
 export interface IDataExcursao {

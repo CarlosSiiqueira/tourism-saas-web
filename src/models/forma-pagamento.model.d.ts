@@ -9,6 +9,7 @@ export interface IFormaPagamento {
   id: string
   nome: string
   taxa: number
+  taxa1x: number
   taxa2x: number
   taxa3x: number
   taxa4x: number
@@ -22,6 +23,7 @@ export interface IFormaPagamento {
   taxa12x: number
   qtdDiasRecebimento: number
   ativo: boolean
+  creditCard: boolean
 }
 
 export interface IFormaPagamentoResponse {

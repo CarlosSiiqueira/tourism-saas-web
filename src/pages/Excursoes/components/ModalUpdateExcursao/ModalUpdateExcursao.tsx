@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Flex, Input, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, FormControl, FormLabel, FormErrorMessage, Checkbox } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -69,7 +69,10 @@ const handleSubmitRegisterSchema = z.object({
     .array(z.string())
     .min(1, {
       message: fieldRequired('Defina os locais de embarque')
-    })
+    }),
+  destacado: z
+    .boolean()
+    .optional()
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -110,13 +113,15 @@ const ModalUpdateExcursao = ({
       dataFim: data.dataFim.split('T')[0],
       codigoPacote: data.codigoPacote,
       localEmbarque: data.LocalEmbarque.map((local) => { return local.id }),
-      qtdMinVendas: data.qtdMinVendas
+      qtdMinVendas: data.qtdMinVendas,
+      destacado: data.destacado
     }
   });
 
   const { mutate, isLoading } = updateExcursao(reset, handleClose);
   const { data: dataPacotes, isLoading: loadingpacotees } = getAllPacotes();
   const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
+  const [isCheckedDestacado, setCheckDestacado] = useState(data.destacado || false)
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
     mutate({
@@ -348,6 +353,30 @@ const ModalUpdateExcursao = ({
           />
 
         </FieldWrap>
+
+        <Checkbox
+          borderColor="#909090"
+          isChecked={isCheckedDestacado}
+          {...register('destacado')}
+          _checked={{
+            ".chakra-checkbox__control": {
+              bgColor: "brand.500",
+              borderColor: "brand.500",
+              boxShadow: "none",
+            },
+            ".chakra-checkbox__control:hover": {
+              bgColor: "brand.500",
+              borderColor: "brand.500",
+              boxShadow: "none",
+            },
+          }}
+          onChange={(event) => {
+            setValue('destacado', event.target.checked ? true : false)
+            setCheckDestacado(event.target.checked ? true : false)
+          }}
+        >
+          Destacar Excursão no Site?
+        </Checkbox>
 
         <Flex justifyContent="flex-end" gap="15px">
           <Button

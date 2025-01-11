@@ -30,6 +30,9 @@ const handleSubmitRegisterSchema = z.object({
     .min(0, {
       message: fieldRequired('taxa')
     }),
+  taxa1x: z
+    .number()
+    .optional(),
   taxa2x: z
     .number()
     .optional(),
@@ -68,10 +71,15 @@ const handleSubmitRegisterSchema = z.object({
     .refine(value => value != undefined, {
       message: fieldRequired('ativo')
     }),
+  creditCard: z
+    .boolean()
+    .refine(value => value != undefined, {
+      message: fieldRequired('Cartão de Crédito')
+    }),
   qtdDiasRecebimento: z
     .number()
     .min(1, {
-      message: fieldRequired('qtdDiasRecebimento')
+      message: fieldRequired('Dias Recebimento')
     })
 });
 
@@ -100,20 +108,22 @@ const ModalUpdateContaBancaria = ({
     resolver: zodResolver(handleSubmitRegisterSchema),
     defaultValues: {
       nome: data.nome,
-      taxa: data.taxa,
-      taxa2x: data.taxa2x,
-      taxa3x: data.taxa3x,
-      taxa4x: data.taxa4x,
-      taxa5x: data.taxa5x,
-      taxa6x: data.taxa6x,
-      taxa7x: data.taxa7x,
-      taxa8x: data.taxa8x,
-      taxa9x: data.taxa9x,
-      taxa10x: data.taxa10x,
-      taxa11x: data.taxa11x,
-      taxa12x: data.taxa12x,
+      taxa: data.taxa || 0,
+      taxa1x: data.taxa1x || 0,
+      taxa2x: data.taxa2x || 0,
+      taxa3x: data.taxa3x || 0,
+      taxa4x: data.taxa4x || 0,
+      taxa5x: data.taxa5x || 0,
+      taxa6x: data.taxa6x || 0,
+      taxa7x: data.taxa7x || 0,
+      taxa8x: data.taxa8x || 0,
+      taxa9x: data.taxa9x || 0,
+      taxa10x: data.taxa10x || 0,
+      taxa11x: data.taxa11x || 0,
+      taxa12x: data.taxa12x || 0,
       qtdDiasRecebimento: data.qtdDiasRecebimento,
-      ativo: data.ativo
+      ativo: data.ativo,
+      creditCard: data.creditCard
     }
   });
   const { mutate, isLoading } = updateFormaPagamento(reset, handleClose);
@@ -136,6 +146,18 @@ const ModalUpdateContaBancaria = ({
       nome: "Inativo"
     }
   ]
+
+  const dataCreditCard = [
+    {
+      id: true,
+      nome: "Sim"
+    },
+    {
+      id: false,
+      nome: "Não"
+    }
+  ]
+
 
   return (
     <form
@@ -172,7 +194,7 @@ const ModalUpdateContaBancaria = ({
             height="40px"
             label="Nº dias para recebimento"
             minWidth="200px"
-            {...register("qtdDiasRecebimento")}
+            {...register("qtdDiasRecebimento", { valueAsNumber: true })}
             setValue={setValue}
             value={getValues("qtdDiasRecebimento")}
             flex="1.01"
@@ -208,7 +230,27 @@ const ModalUpdateContaBancaria = ({
           flexDirection={{
             base: "column",
             lg: "row",
-          }}>
+          }}
+        >
+
+          <SelectForm
+            name="creditCard"
+            label="Cartão de Crédito?"
+            isRequired
+            handleChange={(option) => {
+              setValue("creditCard", option?.value);
+            }}
+            options={dataCreditCard
+              ?.map((data) => ({
+                label: data?.nome,
+                value: data?.id,
+              }))}
+            errors={errors.creditCard}
+            defaultValue={{
+              label: data.creditCard ? 'Sim' : 'Não',
+              value: data.creditCard
+            }}
+          />
 
           <FormInputNumber
             value={getValues('taxa')}
@@ -227,6 +269,31 @@ const ModalUpdateContaBancaria = ({
             maxWidth="33%"
           />
 
+        </Flex>
+
+        <Flex
+          gap="15px"
+          flexDirection={{
+            base: "column",
+            lg: "row",
+          }}>
+
+          <FormInputNumber
+            value={getValues('taxa1x')}
+            label="Taxa 1x"
+            {...register("taxa1x", { valueAsNumber: true })}
+            defaultValue={0}
+            setValue={setValue}
+            flex="1.01"
+            name="taxa1x"
+            maxLength={25}
+            dontAllowNegative
+            errors={errors.taxa1x}
+            prefix="percentual"
+            minWidth="90px"
+            maxWidth="33%"
+          />
+
           <FormInputNumber
             value={getValues('taxa2x')}
             label="Taxa 2x"
@@ -237,7 +304,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa2x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa2x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -253,7 +320,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa3x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa3x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -277,7 +344,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa4x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa4x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -293,7 +360,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa5x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa5x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -309,7 +376,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa6x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa6x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -334,7 +401,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa7x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa7x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -350,7 +417,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa8x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa8x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -366,7 +433,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa9x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa9x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -391,7 +458,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa10x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa10x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -407,7 +474,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa11x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa11x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"
@@ -423,7 +490,7 @@ const ModalUpdateContaBancaria = ({
             name="taxa12x"
             maxLength={25}
             dontAllowNegative
-            errors={errors.taxa}
+            errors={errors.taxa12x}
             prefix="percentual"
             minWidth="90px"
             maxWidth="33%"

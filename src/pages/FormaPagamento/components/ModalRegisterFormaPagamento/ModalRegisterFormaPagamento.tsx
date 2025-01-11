@@ -29,6 +29,9 @@ const handleSubmitRegisterSchema = z.object({
     .min(0, {
       message: fieldRequired('taxa')
     }),
+  taxa1x: z
+    .number()
+    .optional(),
   taxa2x: z
     .number()
     .optional(),
@@ -67,10 +70,15 @@ const handleSubmitRegisterSchema = z.object({
     .refine(value => value != undefined, {
       message: fieldRequired('ativo')
     }),
+  creditCard: z
+    .boolean()
+    .refine(value => value != undefined, {
+      message: fieldRequired("Cartão de Crédito")
+    }),
   qtdDiasRecebimento: z
     .number()
     .min(1, {
-      message: fieldRequired('qtdDiasRecebimento')
+      message: fieldRequired('Dias Recebimento')
     })
 });
 
@@ -98,6 +106,7 @@ const ModalRegisterFormaPagamento = ({
   const { mutate, isLoading } = createFormaPagamento(reset, handleClose);
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
+    debugger
     mutate({
       ...submitData,
       usuarioCadastro: user?.id
@@ -112,6 +121,17 @@ const ModalRegisterFormaPagamento = ({
     {
       id: false,
       nome: "Inativo"
+    }
+  ]
+
+  const dataCreditCard = [
+    {
+      id: true,
+      nome: "Sim"
+    },
+    {
+      id: false,
+      nome: "Não"
     }
   ]
 
@@ -182,7 +202,23 @@ const ModalRegisterFormaPagamento = ({
           flexDirection={{
             base: "column",
             lg: "row",
-          }}>
+          }}
+        >
+
+          <SelectForm
+            name="creditCard"
+            label="Cartão de Crédito?"
+            isRequired
+            handleChange={(option) => {
+              setValue("creditCard", option?.value);
+            }}
+            options={dataCreditCard
+              ?.map((data) => ({
+                label: data?.nome,
+                value: data?.id,
+              }))}
+            errors={errors.creditCard}
+          />
 
           <FormInputNumber
             label="Taxa"
@@ -193,6 +229,30 @@ const ModalRegisterFormaPagamento = ({
             name="taxa"
             maxLength={25}
             isRequired
+            dontAllowNegative
+            errors={errors.taxa}
+            prefix="percentual"
+            minWidth="90px"
+            maxWidth="33%"
+          />
+
+        </Flex>
+
+        <Flex
+          gap="15px"
+          flexDirection={{
+            base: "column",
+            lg: "row",
+          }}>
+
+          <FormInputNumber
+            label="Taxa 1x"
+            {...register("taxa1x", { valueAsNumber: true })}
+            defaultValue={0}
+            setValue={setValue}
+            flex="1.01"
+            name="taxa1x"
+            maxLength={25}
             dontAllowNegative
             errors={errors.taxa}
             prefix="percentual"

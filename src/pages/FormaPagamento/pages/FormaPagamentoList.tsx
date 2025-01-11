@@ -146,6 +146,7 @@ const FormaPagamentoList = () => {
                                             <TD>Status</TD>
                                             <TD>Taxa</TD>
                                             <TD>Dias para recebimento</TD>
+                                            <TD>Cartão de Crédito</TD>
                                             <TD></TD>
                                         </THead>
 
@@ -163,6 +164,9 @@ const FormaPagamentoList = () => {
                                                     </TD>
                                                     <TD>
                                                         {item.qtdDiasRecebimento} Dia(s)
+                                                    </TD>
+                                                    <TD>
+                                                        {item.creditCard ? 'Sim' : 'Não'}
                                                     </TD>
                                                     <TD gap={3}>
                                                         <MdEdit

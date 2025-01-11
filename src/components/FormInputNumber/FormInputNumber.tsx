@@ -160,7 +160,7 @@ const FormInputNumber = ({
             onValueChange={({ value }) => {
               if (isStateForm) {
                 setValue(Number(value) || "")
-              } else {
+              } else {                
                 setValue(name, Number(value) || "")
               }
             }}

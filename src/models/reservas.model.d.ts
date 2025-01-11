@@ -41,6 +41,7 @@ export interface IReserva {
     FormaPagamento: {
       id: string
       nome: string
+      creditCard: boolean
     }
     ContaBancaria: {
       id: string

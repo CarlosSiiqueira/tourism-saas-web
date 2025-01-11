@@ -7,7 +7,7 @@ import { formattingDate } from "../../../../utils/formattingDate";
 
 const SideBar = ({ status }: ISidebar) => {
   const { getExcursoes } = useExcursoes();
-  const { data: dataExcursoes, isLoading: loadingExcursoes } = getExcursoes({ page: 1, size: 100 });
+  const { data: dataExcursoes, isLoading: loadingExcursoes } = getExcursoes({ page: 1, size: 100, ativo: true });
 
   return (
     <>

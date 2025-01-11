@@ -201,9 +201,8 @@ const ExcursaoList = () => {
                   <Table>
                     <THead padding="0 30px 0 30px">
                       <TD>Excursão</TD>
-                      <TD>Pacote</TD>
-                      <TD>Data Início</TD>
-                      <TD>Data Fim</TD>
+                      <TD>Destino</TD>
+                      <TD>Período</TD>
                       <TD>Valor</TD>
                       <TD>Status</TD>
                       <TD>Vagas</TD>
@@ -221,16 +220,13 @@ const ExcursaoList = () => {
                             {item.Pacotes.nome}
                           </TD>
                           <TD>
-                            {dateFormat(new Date(item.dataInicio))}
-                          </TD>
-                          <TD>
-                            {dateFormat(new Date(item.dataFim))}
+                            {dateFormat(new Date(item.dataInicio))} à {dateFormat(new Date(item.dataFim))}
                           </TD>
                           <TD>
                             {currencyBRLFormat(item.valor)}
                           </TD>
                           <TD>
-                            {item.ativo ? "Ativo" : "Inativo"}
+                            {item.ativo ? "Ativa" : "Inativa"} {item.destacado ? '/ Em Destaque' : ''}
                           </TD>
                           <TD>
                             {item.vagas}
@@ -305,16 +301,18 @@ const ExcursaoList = () => {
                               />
                             </ButtonIcon>
 
-                            <ButtonIcon tooltip="Excluir Excursao">
-                              <IoMdTrash
-                                size={20}
-                                onClick={() => {
-                                  setModalRemoveExcursao(true)
-                                  setDeleteExcursaoId(item.id)
-                                }
-                                }
-                              />
-                            </ButtonIcon>
+                            {item.ativo && (
+                              <ButtonIcon tooltip="Excluir Excursao">
+                                <IoMdTrash
+                                  size={20}
+                                  onClick={() => {
+                                    setModalRemoveExcursao(true)
+                                    setDeleteExcursaoId(item.id)
+                                  }
+                                  }
+                                />
+                              </ButtonIcon>
+                            )}
                           </TD>
                         </TR>
                       ))}

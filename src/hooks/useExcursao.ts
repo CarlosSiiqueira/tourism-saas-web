@@ -20,7 +20,8 @@ const getExcursoes = (
     nome,
     dataInicio,
     dataFim,
-    status
+    status,
+    ativo
   }: IExcursaoArgs): IExcursaoResponse => {
 
   const { data, isLoading } = useQuery(
@@ -46,7 +47,8 @@ const getExcursoes = (
             nome,
             dataInicio,
             dataFim,
-            status
+            status,
+            ativo
           },
         });
 

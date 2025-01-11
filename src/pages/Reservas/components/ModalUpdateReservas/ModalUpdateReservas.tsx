@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,11 +25,12 @@ import SelectForm from "../../../../components/SelectForm";
 import { IOption } from "../../../../components/SelectForm/types";
 import useLocalEmbarque from "../../../../hooks/useLocalEmbarque";
 import ReactSelect from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IExcursao } from "../../../../models/excursao.model";
 import { formattingDate } from "../../../../utils/formattingDate";
 import useProduct from "../../../../hooks/useProducts";
 import Opcionais from "../Opcionais";
+import { ISelect } from "../../../../models/generics.model";
 
 const opcionalSchema = z.object({
   id: z.string(),
@@ -83,6 +84,9 @@ const handleSubmitRegisterSchema = z.object({
   opcionais: z
     .array(opcionalSchema)
     .optional(),
+  passengerLink: z
+    .string()
+    .optional()
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -118,6 +122,10 @@ const ModalUpdateReserva = ({
   const [total, setTotal] = useState((subTotal * quantidade) - desconto);
   const [valorDesconto, setValorDesconto] = useState(data.desconto);
   const [valorOpcionais, setValorOpcionais] = useState(0);
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [showPassageiroLink, setShowPassageiroLink] = useState(false)
+  const [isPassageiroLinkRequired, setPassageiroLinkRequired] = useState(false)
+  const [opcoesPassageiroLink, setOpcoesPassageiroLink] = useState<ISelect[]>([])
 
   const {
     getValues,
@@ -141,6 +149,12 @@ const ModalUpdateReserva = ({
   const { mutate, isLoading } = updateReserva(reset, handleClose);
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
+
+    if (showPassageiroLink && !getValues('passengerLink')) {
+      setIsPopupOpen(true)
+      return
+    }
+
     mutate({
       ...submitData,
       ...data,
@@ -190,265 +204,354 @@ const ModalUpdateReserva = ({
     setValue('opcionais', quantities);
   };
 
+  const handleChangePayment = (option: { value: string, creditCard: boolean }) => {
+    setValue("codigoFormaPagamento", option?.value);
+
+    if (option?.creditCard) {
+      setPassageiroLinkRequired(true);
+      setShowPassageiroLink(true);
+      return;
+    }
+
+    setPassageiroLinkRequired(false);
+    setShowPassageiroLink(false);
+  };
+
+  useEffect(() => {
+    if (dataFormaPagamentos && dataFormaPagamentos.length > 0) {
+      const defaultOption = {
+        value: dataFormaPagamentos[0].id,
+        label: dataFormaPagamentos[0].nome,
+        creditCard: dataFormaPagamentos[0]?.creditCard,
+      };
+
+      handleChangePayment(defaultOption);
+    }
+  }, [dataFormaPagamentos]);
+
+  const handleChangePassenger = (option: ISelect[]) => {
+    setOpcoesPassageiroLink(option)
+  };
+
+  useEffect(() => {
+    if (data.Pessoa && data.Pessoa.length > 0) {
+      const defaultOption = data.Pessoa.map((passageiro) => { return { value: passageiro.id, label: passageiro.nome } })
+
+      handleChangePassenger(defaultOption);
+    }
+  }, [data.Pessoa]);
+
   return (
-    <form
-      onSubmit={handleSubmit(handleSubmitRegister)}
-      style={{ width: "100%" }}
-    >
-      <Box display="flex" flexDirection="column" gap="25px" padding="30px">
-        <span>
-          (<Asterisk />) indica os campos obrigatórios
-        </span>
-
-        <SelectForm
-          name="idExcursao"
-          label="Excursão"
-          minW="200px"
-          isRequired
-          isLoading={loadingExcursoes}
-          handleChange={(option) => {
-            setValue("idExcursao", option?.value);
-            onSelectExcursao(option?.value || '')
-            calculateTotal(quantidade, subTotal, desconto)
-            calculateDesconto(getValues("valorDesconto") || 0)
-          }}
-          options={dataExcursoes
-            ?.map((codigoExcursao) => ({
-              label: `${formattingDate(codigoExcursao.dataInicio)} à ${formattingDate(codigoExcursao.dataFim)} - ${codigoExcursao?.nome}`,
-              value: codigoExcursao?.id,
-            }))}
-          defaultValue={{
-            value: data.Excursao.id,
-            label: `${formattingDate(data.Excursao.dataInicio)} à ${formattingDate(data.Excursao.dataFim)} - ${data.Excursao?.nome}`
-          }}
-          errors={errors.idExcursao}
-        />
-
-        <SelectForm
-          name="passageiros"
-          placeholder="Selecione"
-          label="Passageiros"
-          minW="200px"
-          isRequired
-          isMulti
-          isSearchable
-          isLoading={loadingClientes}
-          handleChange={(option) => {
-            setValue("passageiros", option?.map((item: IOption) => item?.value.toString()) || []);
-            onSelectPassageiros(option)
-          }}
-          options={dataClientes
-            ?.map((codigoPessoa) => ({
-              label: codigoPessoa?.nome,
-              value: codigoPessoa?.id,
-            }))}
-          defaultValue={data.Pessoa.map((passageiro) => {
-            return {
-              value: passageiro.id,
-              label: passageiro.nome
-            }
-          })}
-          errors={errors.passageiros}
-        />
-
-        <Flex
-          gap="15px"
-          flexDirection={{
-            base: "column",
-            lg: "row",
-          }}
-        >
+    <>
+      <form
+        onSubmit={handleSubmit(handleSubmitRegister)}
+        style={{ width: "100%" }}
+      >
+        <Box display="flex" flexDirection="column" gap="25px" padding="30px">
+          <span>
+            (<Asterisk />) indica os campos obrigatórios
+          </span>
 
           <SelectForm
-            name="codigoFormaPagamento"
-            label="Forma de Pagamento"
-            minW="135px"
+            name="idExcursao"
+            label="Excursão"
+            minW="200px"
             isRequired
-            isSearchable
-            isLoading={loadingFormaPagamentos}
+            isLoading={loadingExcursoes}
             handleChange={(option) => {
-              setValue("codigoFormaPagamento", option?.value);
+              setValue("idExcursao", option?.value);
+              onSelectExcursao(option?.value || '')
+              calculateTotal(quantidade, subTotal, desconto)
+              calculateDesconto(getValues("valorDesconto") || 0)
             }}
-            options={dataFormaPagamentos
-              ?.map((codigoFormaPagamento) => ({
-                label: codigoFormaPagamento?.nome,
-                value: codigoFormaPagamento?.id,
+            options={dataExcursoes
+              ?.map((codigoExcursao) => ({
+                label: `${formattingDate(codigoExcursao.dataInicio)} à ${formattingDate(codigoExcursao.dataFim)} - ${codigoExcursao?.nome}`,
+                value: codigoExcursao?.id,
               }))}
             defaultValue={{
-              value: data.Transacoes[0].FormaPagamento.id,
-              label: data.Transacoes[0].FormaPagamento.nome
+              value: data.Excursao.id,
+              label: `${formattingDate(data.Excursao.dataInicio)} à ${formattingDate(data.Excursao.dataFim)} - ${data.Excursao?.nome}`
             }}
-            errors={errors.codigoFormaPagamento}
+            errors={errors.idExcursao}
           />
 
           <SelectForm
-            name="codigoContaBancaria"
-            label="Conta Bancária"
-            minW="135px"
+            name="passageiros"
+            placeholder="Selecione"
+            label="Passageiros"
+            minW="200px"
+            isRequired
+            isMulti
             isSearchable
-            isLoading={isLoadingContaBancaria}
+            isLoading={loadingClientes}
             handleChange={(option) => {
-              setValue("codigoContaBancaria", option?.value);
+              setValue("passageiros", option?.map((item: IOption) => item?.value.toString()) || []);
+              onSelectPassageiros(option)
+              setOpcoesPassageiroLink(option)
             }}
-            options={dataContaBancaria
-              ?.map((codigoContaBancaria) => ({
-                label: codigoContaBancaria?.nome,
-                value: codigoContaBancaria?.id,
+            options={dataClientes
+              ?.map((codigoPessoa) => ({
+                label: codigoPessoa?.nome,
+                value: codigoPessoa?.id,
               }))}
-            defaultValue={{
-              value: data.Transacoes[0].ContaBancaria?.id,
-              label: data.Transacoes[0].ContaBancaria?.nome
+            defaultValue={data.Pessoa.map((passageiro) => {
+              return {
+                value: passageiro.id,
+                label: passageiro.nome
+              }
+            })}
+            errors={errors.passageiros}
+          />
+
+          <Flex
+            gap="15px"
+            flexDirection={{
+              base: "column",
+              lg: "row",
             }}
-            errors={errors.codigoContaBancaria}
-          />
-        </Flex>
+          >
 
-        <Flex
-          gap="15px"
-          flexDirection={{
-            base: "column",
-            lg: "row",
-          }}
-        >
+            <SelectForm
+              name="codigoFormaPagamento"
+              label="Forma de Pagamento"
+              minW="135px"
+              isRequired
+              isSearchable
+              isLoading={loadingFormaPagamentos}
+              handleChange={(option) => {
+                setValue("codigoFormaPagamento", option?.value);
 
-          <FormInputNumber
-            height="40px"
-            label="Crianças de colo"
-            minWidth="250px"
-            maxWidth="250px"
-            {...register("criancasColo")}
-            setValue={setValue}
-            placeholder="Quantidade"
-            flex="1.01"
-            maxLength={25}
-            dontAllowNegative={true}
-            name="criancasColo"
-            value={data.criancasColo}
-            errors={errors.criancasColo}
-          />
+                if (option?.creditCard) {
+                  setPassageiroLinkRequired(true)
+                  setShowPassageiroLink(true)
+                  return
+                }
 
-          <FieldWrap width="250px">
-            <span>Local De Embarque</span>
-            <ReactSelect
-              {...register('localEmbarqueId')}
-              name="localEmbarqueId"
-              className="select-fields"
-              classNamePrefix="select"
-              closeMenuOnSelect={true}
-              isSearchable={true}
-              placeholder="Selecionar"
-              noOptionsMessage={() => "Nenhum local encontrado"}
-              isLoading={isLoadingLocalEmbarque}
-              onChange={(item) => {
-                setValue('localEmbarqueId', item?.value || '')
+                setPassageiroLinkRequired(false)
+                setShowPassageiroLink(false)
               }}
-              options={localEmbarqueData.map((local) => {
-                return { value: local.id, label: `${local.horaEmbarque} - ${local.nome}` }
-              })}
+              options={dataFormaPagamentos
+                ?.map((codigoFormaPagamento) => ({
+                  label: codigoFormaPagamento?.nome,
+                  value: codigoFormaPagamento?.id,
+                  creditCard: codigoFormaPagamento?.creditCard
+                }))}
               defaultValue={{
-                value: data.LocalEmbarque.id,
-                label: `${data.LocalEmbarque.horaEmbarque} - ${data.LocalEmbarque.nome}`
+                value: data.Transacoes[0].FormaPagamento.id,
+                label: data.Transacoes[0].FormaPagamento.nome,
+                creditCard: data.Transacoes[0].FormaPagamento?.creditCard
               }}
+              errors={errors.codigoFormaPagamento}
             />
 
-          </FieldWrap>
-
-        </Flex>
-
-        {!isLoadingExcursao && produtoData && (
-          <Opcionais
-            produtoData={produtoData}
-            onTotalChange={handleOpcionaisTotalChange}
-            onQuantitiesChange={handleQuantitiesChange}
-            updateData={data}
-          />
-        )}
-
-
-        <Flex
-          gap="15px"
-          flexDirection={{
-            base: "column",
-            lg: "row",
-          }}>
-
-          <FormInputNumber
-            height="40px"
-            label="SubTotal"
-            minWidth="100px"
-            {...register("subtotal")}
-            setValue={setValue}
-            value={subTotal}
-            isMoneyValue={true}
-            flex="1.01"
-            maxLength={25}
-            dontAllowNegative={true}
-            readOnly={true}
-          />
-
-          <FieldWrap>
-            <span>Quantidade </span>
-            <Input
-              height="40px"
-              type="number"
-              minWidth="80px"
-              {...register("quantidade")}
-              flex="1.01"
-              value={quantidade}
-              maxLength={25}
-              readOnly={true}
-              sx={{
-                border: 'none',
-                backgroundColor: '',
-                color: 'black'
+            <SelectForm
+              name="codigoContaBancaria"
+              label="Conta Bancária"
+              minW="135px"
+              isSearchable
+              isLoading={isLoadingContaBancaria}
+              handleChange={(option) => {
+                setValue("codigoContaBancaria", option?.value);
               }}
+              options={dataContaBancaria
+                ?.map((codigoContaBancaria) => ({
+                  label: codigoContaBancaria?.nome,
+                  value: codigoContaBancaria?.id,
+                }))}
+              defaultValue={{
+                value: data.Transacoes[0].ContaBancaria?.id,
+                label: data.Transacoes[0].ContaBancaria?.nome
+              }}
+              errors={errors.codigoContaBancaria}
             />
-          </FieldWrap>
+          </Flex>
 
-          <FieldWrap>
+          <Flex
+            gap="15px"
+            flexDirection={{
+              base: "column",
+              lg: "row",
+            }}
+          >
+
             <FormInputNumber
               height="40px"
-              type="number"
-              label="Desconto"
-              minWidth="100px"
-              {...register("valorDesconto")}
+              label="Crianças de colo"
+              minWidth="250px"
+              maxWidth="250px"
+              {...register("criancasColo")}
               setValue={setValue}
+              placeholder="Quantidade"
               flex="1.01"
-              value={valorDesconto}
-              readOnly={true}
-              isMoneyValue={true}
+              maxLength={25}
               dontAllowNegative={true}
+              name="criancasColo"
+              value={data.criancasColo}
+              errors={errors.criancasColo}
             />
-          </FieldWrap>
 
-          <FormInputNumber
-            height="40px"
-            label="Total"
-            minWidth="100px"
-            {...register("total")}
-            setValue={setValue}
-            isMoneyValue={true}
-            flex="1.01"
-            value={total}
-            maxLength={25}
-            dontAllowNegative={true}
-            readOnly={true}
-          />
-        </Flex>
+            <FieldWrap width="250px">
+              <span>Local De Embarque</span>
+              <ReactSelect
+                {...register('localEmbarqueId')}
+                name="localEmbarqueId"
+                className="select-fields"
+                classNamePrefix="select"
+                closeMenuOnSelect={true}
+                isSearchable={true}
+                placeholder="Selecionar"
+                noOptionsMessage={() => "Nenhum local encontrado"}
+                isLoading={isLoadingLocalEmbarque}
+                onChange={(item) => {
+                  setValue('localEmbarqueId', item?.value || '')
+                }}
+                options={localEmbarqueData.map((local) => {
+                  return { value: local.id, label: `${local.horaEmbarque} - ${local.nome}` }
+                })}
+                defaultValue={{
+                  value: data.LocalEmbarque.id,
+                  label: `${data.LocalEmbarque.horaEmbarque} - ${data.LocalEmbarque.nome}`
+                }}
+              />
 
-        <Flex justifyContent="flex-end" gap="15px">
-          <Button
-            isDisabled={
-              isLoading
-            }
-            isLoading={isLoading}
-            type="submit"
-          >
-            Cadastrar
-          </Button>
-        </Flex>
-      </Box>
-    </form>
+            </FieldWrap>
+
+          </Flex>
+
+          {showPassageiroLink && (
+            <Flex
+              gap="15px"
+              flexDirection={{
+                base: "column",
+                lg: "row",
+              }}
+            >
+              <SelectForm
+                name="passengerLink"
+                label="Enviar Link de Pagamento Para:"
+                isRequired={isPassageiroLinkRequired}
+                handleChange={(option) => {
+                  setValue("passengerLink", option?.value);
+                }}
+                options={opcoesPassageiroLink
+                  ?.map((passageiro) => ({
+                    label: passageiro?.label,
+                    value: passageiro?.value
+                  }))}
+                errors={errors.passengerLink}
+              />
+
+            </Flex>
+          )}
+
+          {!isLoadingExcursao && produtoData && (
+            <Opcionais
+              produtoData={produtoData}
+              onTotalChange={handleOpcionaisTotalChange}
+              onQuantitiesChange={handleQuantitiesChange}
+              updateData={data}
+            />
+          )}
+
+
+          <Flex
+            gap="15px"
+            flexDirection={{
+              base: "column",
+              lg: "row",
+            }}>
+
+            <FormInputNumber
+              height="40px"
+              label="SubTotal"
+              minWidth="100px"
+              {...register("subtotal")}
+              setValue={setValue}
+              value={subTotal}
+              isMoneyValue={true}
+              flex="1.01"
+              maxLength={25}
+              dontAllowNegative={true}
+              readOnly={true}
+            />
+
+            <FieldWrap>
+              <span>Quantidade </span>
+              <Input
+                height="40px"
+                type="number"
+                minWidth="80px"
+                {...register("quantidade")}
+                flex="1.01"
+                value={quantidade}
+                maxLength={25}
+                readOnly={true}
+                sx={{
+                  border: 'none',
+                  backgroundColor: '',
+                  color: 'black'
+                }}
+              />
+            </FieldWrap>
+
+            <FieldWrap>
+              <FormInputNumber
+                height="40px"
+                type="number"
+                label="Desconto"
+                minWidth="100px"
+                {...register("valorDesconto")}
+                setValue={setValue}
+                flex="1.01"
+                value={valorDesconto}
+                readOnly={true}
+                isMoneyValue={true}
+                dontAllowNegative={true}
+              />
+            </FieldWrap>
+
+            <FormInputNumber
+              height="40px"
+              label="Total"
+              minWidth="100px"
+              {...register("total")}
+              setValue={setValue}
+              isMoneyValue={true}
+              flex="1.01"
+              value={total}
+              maxLength={25}
+              dontAllowNegative={true}
+              readOnly={true}
+            />
+          </Flex>
+
+          <Flex justifyContent="flex-end" gap="15px">
+            <Button
+              isDisabled={
+                isLoading
+              }
+              isLoading={isLoading}
+              type="submit"
+            >
+              Cadastrar
+            </Button>
+          </Flex>
+        </Box>
+      </form>
+      <Modal isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Erro!</ModalHeader>
+          <ModalBody>
+            <p>Selecione um passageiro para enviar o link</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => setIsPopupOpen(false)}>Fechar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

@@ -14,7 +14,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
+  Checkbox
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -80,7 +81,10 @@ const handleSubmitRegisterSchema = z.object({
     .array(z.string())
     .min(1, {
       message: fieldRequired('Defina os locais de embarque')
-    })
+    }),
+  destacado: z
+    .boolean()
+    .optional()
 });
 
 type IhandleSubmitRegister = z.infer<typeof handleSubmitRegisterSchema>;
@@ -137,6 +141,7 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
   const { data: dataFornecedores, isLoading: loadingFornecedores } = getAllFornecedores();
   const { data: dataFormaPagamento, isLoading: loadingFormaPagamento } = getAllFormaPagamentos();
   const { data: localEmbarqueData, isLoading: isLoadingLocalEmbarque } = getLocalEmbarque()
+  const [isCheckedDestacado, setCheckDestacado] = useState(false)
 
   const handleSubmitRegister = (submitData: IhandleSubmitRegister) => {
     mutate({
@@ -330,6 +335,30 @@ const ModalRegisterExcursao = ({ handleClose }: IModalRecordCollaborator) => {
             />
 
           </FieldWrap>
+
+          <Checkbox
+            borderColor="#909090"
+            isChecked={isCheckedDestacado}
+            {...register('destacado')}
+            _checked={{
+              ".chakra-checkbox__control": {
+                bgColor: "brand.500",
+                borderColor: "brand.500",
+                boxShadow: "none",
+              },
+              ".chakra-checkbox__control:hover": {
+                bgColor: "brand.500",
+                borderColor: "brand.500",
+                boxShadow: "none",
+              },
+            }}
+            onChange={(event) => {
+              setValue('destacado', event.target.checked ? true : false)
+              setCheckDestacado(event.target.checked ? true : false)
+            }}
+          >
+            Destacar Excursão no Site?
+          </Checkbox>
 
           <Flex justifyContent="space-between">
             <Flex justifyContent="start">
